@@ -105,7 +105,9 @@ public class SongImporter {
     }
 
     private void saveListToDatabase() {
-        System.out.println("poslat list do dao a ulozit ho");
+        for (int i = 0; i < songs.size(); i++) {
+            songDao.saveOrUpdate(songs.get(i));
+        }
     }
 
 }
