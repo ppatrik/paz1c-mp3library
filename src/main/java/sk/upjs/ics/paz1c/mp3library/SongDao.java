@@ -1,5 +1,6 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.io.File;
 import java.util.List;
 
 public interface SongDao {
@@ -10,15 +11,15 @@ public interface SongDao {
 
     public Song findById(Long id);
 
+    public Song findByFilePath(File file_path);
+
     public List<Song> findAll();
 
-    public List<Song> findByTitle(String title);
+    public List<Song> findAllByTitle(String title);
 
-    public List<Song> findByArtist(Artist artist);
+    public List<Song> findAllByArtist(Artist artist);
 
-    public List<Song> findByAlbum(Album album);
+    public List<Song> findAllByAlbum(Album album);
 
-    public List<Song> findByAlbumArtist(Artist albumArtist);
-    
-    public List<Song> findByGenre(Genre genre);
+    public List<Song> findAllByGenre(Genre genre);
 }

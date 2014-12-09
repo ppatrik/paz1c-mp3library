@@ -3,7 +3,6 @@ package sk.upjs.ics.paz1c.mp3library;
 public class Album {
 
     private Long id;
-    private Artist artist;
     private String name;
     private Integer tracs;
     private Integer discs;
@@ -14,14 +13,6 @@ public class Album {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Artist getArtist() {
-        return artist;
-    }
-
-    public void setArtist(Artist artist) {
-        this.artist = artist;
     }
 
     public String getName() {

@@ -31,6 +31,8 @@ public class MainDashboardForm extends JFrame {
     private JPanel panArtists;
     private JPanel panGenres;
 
+    private SongImporterDialog songImporter = new SongImporterDialog();
+
     public MainDashboardForm() {
         setTitle("MP3 Library");
 
@@ -78,6 +80,20 @@ public class MainDashboardForm extends JFrame {
             }
         });
 
+        btnAddFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnAddFileActionPerformed(e);
+            }
+        });
+
+        btnAddFolder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnAddFolderActionPerformed(e);
+            }
+        });
+
         return navigationPanel;
     }
 
@@ -112,6 +128,14 @@ public class MainDashboardForm extends JFrame {
         //panDashboard.add(panArtists, BorderLayout.CENTER);
         pack();
         repaint();
+    }
+
+    private void btnAddFileActionPerformed(ActionEvent e) {
+        songImporter.importSong();
+    }
+
+    private void btnAddFolderActionPerformed(ActionEvent e) {
+        songImporter.importFolder();
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {

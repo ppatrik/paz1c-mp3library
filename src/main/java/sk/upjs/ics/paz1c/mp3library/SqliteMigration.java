@@ -47,38 +47,34 @@ public class SqliteMigration {
             /*==============================================================*/
             execute("create table albums"
                     + "("
-                    + "album_id             int not null,"
-                    + "artist_id            int,"
+                    + "album_id             int PRIMARY KEY ,"
                     + "name                 longtext,"
                     + "tracs                int,"
-                    + "discs                int,"
-                    + "primary key (album_id)"
+                    + "discs                int"
                     + ");");
 
             /*==============================================================*/
             /* Table: artists                                               */
             /*==============================================================*/
             execute("create table artists("
-                    + "artist_id            int not null,"
+                    + "artist_id            INTEGER PRIMARY KEY,"
                     + "name                 longtext,"
-                    + "wiki                 longtext,"
-                    + "primary key (artist_id)"
+                    + "wiki                 longtext"
                     + ");");
 
             /*==============================================================*/
             /* Table: genres                                                */
             /*==============================================================*/
             execute("create table genres("
-                    + "genre_id             int not null,"
-                    + "name                 longtext,"
-                    + "primary key(genre_id)"
+                    + "genre_id             int PRIMARY KEY,"
+                    + "name                 longtext"
                     + ");");
 
             /*==============================================================*/
             /* Table: songs                                                 */
             /*==============================================================*/
             execute("create table songs("
-                    + "song_id              int not null,"
+                    + "song_id              int PRIMARY KEY,"
                     + "title                longtext,"
                     + "artist_id            int,"
                     + "album_id             int,"
@@ -90,8 +86,7 @@ public class SqliteMigration {
                     + "file_path            longtext,"
                     + "cover                blob,"
                     + "quality              int,"
-                    + "format               char(10),"
-                    + "primary key (song_id)"
+                    + "format               char(10)"
                     + ");");
 
             execute("alter table albums add constraint FK_Reference_3 foreign key (artist_id) references artists (artist_id) on delete restrict on update restrict;");

@@ -1,9 +1,15 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import sk.upjs.ics.paz1c.mp3library.dao.ArtistRowMapper;
 
 class SqliteArtistDao implements ArtistDao {
@@ -14,10 +20,6 @@ class SqliteArtistDao implements ArtistDao {
 
     private final RowMapper<Artist> artistRowMapper = new ArtistRowMapper();
 
-    public SqliteArtistDao() {
-        // empty constructor
-    }
-
     public SqliteArtistDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(this.jdbcTemplate);
@@ -25,49 +27,59 @@ class SqliteArtistDao implements ArtistDao {
 
     @Override
     public void saveOrUpdate(Artist artist) {
-        /*if (book.getId() == null) {
-         insert(book);
-         } else {
-         update(book);
-         }*/
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("artist_id", artist.getId());
+        dataMap.put("name", artist.getName());
+        dataMap.put("wiki", artist.getWiki());
+
+        if (artist.getId() == null) {
+            insert(artist, dataMap);
+        } else {
+            update(artist, dataMap);
+        }
     }
 
-    private void insert(Artist artist) {
-        /*Map<String, Object> insertMap = new HashMap<String, Object>();
-         insertMap.put("id", book.getId());
-         insertMap.put("title", book.getTitle());
-         insertMap.put("path", "file://null");
-         insertMap.put("year", book.getYear());
-
-         KeyHolder keyHolder = new GeneratedKeyHolder();
-         namedParameterJdbcTemplate.update(SqlQueries.Song.INSERT, new MapSqlParameterSource(insertMap), keyHolder);
-         Long id = keyHolder.getKey().longValue();
-         book.setId(id);*/
+    private void insert(Artist artist, Map<String, Object> insertMap) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(SqlQueries.Artist.INSERT, new MapSqlParameterSource(insertMap), keyHolder);
+        Long id = keyHolder.getKey().longValue();
+        artist.setId(id);
     }
 
-    private void update(Artist artist) {
-        /*Map<String, Object> updateMap = new HashMap<String, Object>();
-         updateMap.put("id", book.getId());
-         updateMap.put("title", book.getTitle());
-         updateMap.put("year", book.getYear());
-
-         namedParameterJdbcTemplate.update(SqlQueries.Song.UPDATE, updateMap);*/
+    private void update(Artist artist, Map<String, Object> updateMap) {
+        namedParameterJdbcTemplate.update(SqlQueries.Artist.UPDATE, updateMap);
     }
 
     @Override
     public void delete(Artist artist) {
-        // TODO: overenie ci naozaj neexistuju piesne daneho albumu
-        //jdbcTemplate.update(SqlQueries.Song.DELETE, song.getId());
+        SongDao songDao = BeanFactory.INSTANCE.songDao();
+        List<Song> songs = songDao.findAllByArtist(artist);
+        if (songs.isEmpty()) {
+            jdbcTemplate.update(SqlQueries.Artist.DELETE, artist.getId());
+        }
     }
 
     @Override
     public Artist findById(Long id) {
-        return jdbcTemplate.queryForObject(SqlQueries.Artist.FIND_ONE_BY_ID, artistRowMapper, id);
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Artist.FIND_ONE_BY_ID, artistRowMapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public List<Artist> findAll() {
         return jdbcTemplate.query(SqlQueries.Artist.FIND_ALL, artistRowMapper);
+    }
+
+    @Override
+    public Artist findByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Artist.FIND_ONE_BY_NAME, artistRowMapper, name);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 }

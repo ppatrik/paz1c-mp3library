@@ -1,5 +1,6 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,28 +77,28 @@ class SqliteSongDao implements SongDao {
     }
 
     @Override
-    public List<Song> findByTitle(String title) {
+    public List<Song> findAllByTitle(String title) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_TITLE, songRowMapper, title);
     }
 
     @Override
-    public List<Song> findByArtist(Artist artist) {
+    public List<Song> findAllByArtist(Artist artist) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_ARTIST, songRowMapper, artist.getId());
     }
 
     @Override
-    public List<Song> findByAlbum(Album album) {
+    public List<Song> findAllByAlbum(Album album) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_ALBUM, songRowMapper, album.getId());
     }
 
     @Override
-    public List<Song> findByAlbumArtist(Artist albumArtist) {
-        return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_ALBUM_ARTIST, songRowMapper, albumArtist.getId());
+    public List<Song> findAllByGenre(Genre genre) {
+        return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_GENRE, songRowMapper, genre.getId());
     }
 
     @Override
-    public List<Song> findByGenre(Genre genre) {
-        return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_GENRE, songRowMapper, genre.getId());
+    public Song findByFilePath(File file_path) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
