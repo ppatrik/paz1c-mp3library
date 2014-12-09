@@ -99,5 +99,13 @@ class SqliteSongDao implements SongDao {
     public List<Song> findByGenre(Genre genre) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_GENRE, songRowMapper, genre.getId());
     }
+    @Override
+    public Song findByFilePath(File file_path) {
+        if (jdbcTemplate.query(SqlQueries.Song.FIND_ONE_BY_FILE_PATH, songRowMapper).isEmpty()){
+            return null;
+        }
+        return jdbcTemplate.query(SqlQueries.Song.FIND_ONE_BY_FILE_PATH, songRowMapper).get(0);
+    }
+
 
 }
