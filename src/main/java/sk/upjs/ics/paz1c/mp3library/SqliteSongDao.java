@@ -98,7 +98,10 @@ class SqliteSongDao implements SongDao {
 
     @Override
     public Song findByFilePath(File file_path) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       if (jdbcTemplate.query(SqlQueries.Song.FIND_ONE_BY_FILE_PATH, songRowMapper).isEmpty()){
+            return null;
+        }
+        return jdbcTemplate.query(SqlQueries.Song.FIND_ONE_BY_FILE_PATH, songRowMapper).get(0);
     }
 
 }
