@@ -96,6 +96,14 @@ public class SongImporter {
             Album novyAlbum = new Album();
             novyAlbum.setName(tag.getFirst(FieldKey.ALBUM));
             newSong.setAlbum(novyAlbum);
+            
+            Genre newGenre = new Genre();
+            newGenre.setName(tag.getFirst(FieldKey.GENRE));
+            newSong.setGenre(newGenre);
+            
+            newSong.setTrack(Integer.parseInt(tag.getFirst(FieldKey.TRACK)));
+            
+            newSong.setYear(Integer.parseInt(tag.getFirst(FieldKey.YEAR)));
 
             return newSong;
         } catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException ex) {
