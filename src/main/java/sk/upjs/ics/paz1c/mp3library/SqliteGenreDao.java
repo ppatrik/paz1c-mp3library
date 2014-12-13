@@ -3,6 +3,7 @@ package sk.upjs.ics.paz1c.mp3library;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -27,7 +28,7 @@ class SqliteGenreDao implements GenreDao {
     @Override
     public void saveOrUpdate(Genre genre) {
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("id", genre.getId());
+        dataMap.put("genre_id", genre.getId());
         dataMap.put("name", genre.getName());
 
         if (genre.getId() == null) {
@@ -59,7 +60,20 @@ class SqliteGenreDao implements GenreDao {
 
     @Override
     public Genre findById(Long id) {
-        return jdbcTemplate.queryForObject(SqlQueries.Genre.FIND_ONE_BY_ID, genreRowMapper, id);
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Genre.FIND_ONE_BY_ID, genreRowMapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Genre findByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Genre.FIND_ONE_BY_NAME, genreRowMapper, name);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

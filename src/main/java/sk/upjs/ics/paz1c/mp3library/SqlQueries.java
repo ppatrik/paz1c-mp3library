@@ -1,3 +1,4 @@
+
 package sk.upjs.ics.paz1c.mp3library;
 
 class SqlQueries {
@@ -10,7 +11,7 @@ class SqlQueries {
                 = "UPDATE songs SET title = :title, artist_id = :artist_id, "
                 + "album_id = :album_id, year = :year, "
                 + "track = :track, disc = :disc, genre_id = :genre_id, "
-                + "rating = :rating, file_path = :file_path, cover = :cover"
+                + "rating = :rating, file_path = :file_path, cover = :cover, "
                 + "quality = :quality, format = :format"
                 + " WHERE song_id = :song_id";
         public static String INSERT
@@ -40,9 +41,9 @@ class SqlQueries {
         public static String DELETE
                 = "DELETE FROM albums WHERE album_id = ?";
         public static String UPDATE
-                = "UPDATE albums SET artist_id = :artist_id, name = :name, tracs = :tracs, discs = :discs WHERE id = :id";
+                = "UPDATE albums SET name = :name, tracs = :tracs, discs = :discs WHERE album_id = :album_id";
         public static String INSERT
-                = "INSERT INTO albums VALUES((SELECT IFNULL(MAX(album_id), 0) FROM albums)+1, :artist_id, :name, :tracs, :discs);";
+                = "INSERT INTO albums VALUES((SELECT IFNULL(MAX(album_id), 0) FROM albums)+1, :name, :tracs, :discs);";
         public static String FIND_ALL
                 = "SELECT * FROM albums";
         public static String FIND_ONE_BY_ID
@@ -58,7 +59,7 @@ class SqlQueries {
         public static String UPDATE
                 = "UPDATE artists SET name = :name, wiki = :wiki WHERE artist_id = :artist_id";
         public static String INSERT
-                = "INSERT INTO artists  VALUES((SELECT IFNULL(MAX(artist_id), 0) FROM artists)+1, :name, :wiki);";
+                = "INSERT INTO artists VALUES((SELECT IFNULL(MAX(artist_id), 0) FROM artists)+1, :name, :wiki);";
         public static String FIND_ALL
                 = "SELECT * FROM artists";
         public static String FIND_ONE_BY_ID
@@ -79,5 +80,7 @@ class SqlQueries {
                 = "SELECT * FROM genres";
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM genres WHERE genre_id = ?";
+        public static String FIND_ONE_BY_NAME
+                = "SELECT * FROM genres WHERE name = ?";
     }
 }

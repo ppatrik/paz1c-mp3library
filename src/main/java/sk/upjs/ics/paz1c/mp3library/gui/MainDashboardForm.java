@@ -12,12 +12,13 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.paz1c.mp3library.gui.components.ImageJButton;
 
 public class MainDashboardForm extends JFrame {
 
-    private final JButton btnSongs = new JButton("Songs");
-    private final JButton btnAlbums = new JButton("Albums");
-    private final JButton btnArtist = new JButton("Artist");
+    private final ImageJButton btnSongs = new ImageJButton("songs.png");
+    private final ImageJButton btnAlbums = new ImageJButton("albums.png");
+    private final ImageJButton btnArtist = new ImageJButton("artists.png");
     private final JButton btnAddFolder = new JButton("Add Folder");
     private final JButton btnAddFile = new JButton("Add File");
 
@@ -31,7 +32,7 @@ public class MainDashboardForm extends JFrame {
     private JPanel panArtists;
     private JPanel panGenres;
 
-    private SongImporterDialog songImporter = new SongImporterDialog();
+    private final SongImporterDialog songImporter = new SongImporterDialog();
 
     public MainDashboardForm() {
         setTitle("MP3 Library");
@@ -52,12 +53,12 @@ public class MainDashboardForm extends JFrame {
     }
 
     private JPanel createNavigationPanel() {
-        JPanel navigationPanel = new JPanel(new MigLayout());
-        navigationPanel.add(btnSongs, "wrap");
-        navigationPanel.add(btnAlbums, "wrap");
-        navigationPanel.add(btnArtist, "wrap");
-        navigationPanel.add(btnAddFile, "wrap");
-        navigationPanel.add(btnAddFolder, "wrap");
+        JPanel navigationPanel = new JPanel(new MigLayout("gap rel 0, insets 0"));
+        navigationPanel.add(btnSongs, "wrap, grow, h 30%");
+        navigationPanel.add(btnAlbums, "wrap, grow, h 30%");
+        navigationPanel.add(btnArtist, "wrap, grow, h 30%");
+        navigationPanel.add(btnAddFile, "wrap, grow, h 5%");
+        navigationPanel.add(btnAddFolder, "wrap, grow, h 5%");
 
         btnSongs.addActionListener(new ActionListener() {
             @Override
@@ -103,6 +104,10 @@ public class MainDashboardForm extends JFrame {
         }
         panDashboard.removeAll();
         panDashboard.add(panSongs, BorderLayout.CENTER);
+        
+        btnSongs.setChecked();
+        btnArtist.setUnchecked();
+        btnAlbums.setUnchecked();
 
         pack();
         repaint();
@@ -115,6 +120,10 @@ public class MainDashboardForm extends JFrame {
         panDashboard.removeAll();
         panDashboard.add(panAlbums, BorderLayout.CENTER);
 
+        btnSongs.setUnchecked();
+        btnArtist.setUnchecked();
+        btnAlbums.setChecked();
+        
         pack();
         repaint();
     }
@@ -125,7 +134,10 @@ public class MainDashboardForm extends JFrame {
         }
         panDashboard.removeAll();
 
-        //panDashboard.add(panArtists, BorderLayout.CENTER);
+        btnSongs.setUnchecked();
+        btnArtist.setChecked();
+        btnAlbums.setUnchecked();
+        
         pack();
         repaint();
     }

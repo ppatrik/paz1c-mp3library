@@ -3,6 +3,7 @@ package sk.upjs.ics.paz1c.mp3library;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -61,7 +62,20 @@ class SqliteAlbumDao implements AlbumDao {
 
     @Override
     public Album findById(Long id) {
-        return jdbcTemplate.queryForObject(SqlQueries.Album.FIND_ONE_BY_ID, albumRowMapper, id);
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Album.FIND_ONE_BY_ID, albumRowMapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Album findByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Album.FIND_ONE_BY_NAME, albumRowMapper, name);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

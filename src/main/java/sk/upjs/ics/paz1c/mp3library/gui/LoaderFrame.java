@@ -10,7 +10,7 @@ package sk.upjs.ics.paz1c.mp3library.gui;
  * @author patrik
  */
 public class LoaderFrame extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form LoaderFrame
      */
@@ -19,7 +19,7 @@ public class LoaderFrame extends javax.swing.JFrame {
     }
 
     public void setMessage(String message) {
-        jLabel1.setText(message);
+        lblLoading.setText(message);
     }
 
     /**
@@ -31,12 +31,12 @@ public class LoaderFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lblLoading = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        lblLoading.setText("Načítam");
 
         jProgressBar1.setValue(50);
         jProgressBar1.setFocusCycleRoot(true);
@@ -50,7 +50,7 @@ public class LoaderFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblLoading)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
                 .addContainerGap())
@@ -59,7 +59,7 @@ public class LoaderFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lblLoading)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -69,7 +69,7 @@ public class LoaderFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JLabel lblLoading;
     // End of variables declaration//GEN-END:variables
 }

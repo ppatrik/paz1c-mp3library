@@ -35,15 +35,15 @@ public class SongRowMapper implements RowMapper<Song> {
         song.setGenre(genreDao.findById(rs.getLong("genre_id")));
         song.setRating(rs.getInt("rating"));
         
-        song.setFile_path(new File(rs.getString("file_path")));
+        //song.setFile_path(new File(rs.getString("file_path")));
         
-        try {
+        /*try {
             InputStream binaryStream = rs.getBinaryStream("cover");
             BufferedImage bufferedImage = ImageIO.read(binaryStream);
             song.setCover(new ImageIcon(bufferedImage));
         } catch (IOException e) {
             throw new SQLException("Unable to convert image cover data", e);
-        }
+        }*/
         
         song.setQuality(rs.getInt("quality"));
         song.setFormat(rs.getString("format"));

@@ -9,6 +9,8 @@ public interface AlbumDao {
     public void delete(Album album);
 
     public Album findById(Long id);
+    
+    public Album findByName(String name);
 
     public List<Album> findAll();
 }
