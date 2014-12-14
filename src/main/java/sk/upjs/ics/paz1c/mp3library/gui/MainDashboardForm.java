@@ -100,7 +100,7 @@ public class MainDashboardForm extends JFrame {
 
     private void btnSongsActionPerformed(ActionEvent e) {
         if (panSongs == null) {
-            panSongs = new SongsPanel();
+            panSongs = new SongsPanel(this);
         }
         panDashboard.removeAll();
         panDashboard.add(panSongs, BorderLayout.CENTER);

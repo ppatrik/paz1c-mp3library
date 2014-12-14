@@ -26,7 +26,7 @@ public class AlbumSongsTableModel extends SongsTableModel {
 
     @Override
     public int getRowCount() {
-        return songs.size() * 100;
+        return songs.size();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AlbumSongsTableModel extends SongsTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Song song = songs.get(0); //rowIndex);
+        Song song = songs.get(rowIndex);
         switch (columnIndex) {
             case COLUMN_INDEX_TITLE:
                 return song.getTitle();

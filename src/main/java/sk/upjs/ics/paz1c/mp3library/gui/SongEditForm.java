@@ -1,6 +1,7 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,7 +43,6 @@ public class SongEditForm extends JDialog {
     private JLabel lblArtist = new JLabel("Artist:");
 
     private JLabel lblGenre = new JLabel("Genre:");
-    ;
     
     private JLabel lblYear = new JLabel("Year:");
 
@@ -89,14 +89,15 @@ public class SongEditForm extends JDialog {
     public SongEditForm(Frame owner) {
         this(owner, new Song());
     }
+    
 
     public SongEditForm(Frame owner, Song song) {
         super(owner, "Edit Song", /* modal*/ true);
 
         this.song = song;
 
-        setLayout(new MigLayout("wrap 3, width 200:300:", "[][grow, fill][]", "[][][][][][][][][][nogrid]"));
-
+        setLayout(new MigLayout("wrap 3, width 400:300:", "[][grow, fill][]", "[][][][][][][][][][nogrid]"));
+        
         /* -- Titles - */
         add(lblTitle);
 

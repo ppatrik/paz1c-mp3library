@@ -74,7 +74,10 @@ public class SongImporter {
         for (File file : files) {
             if (file.isFile() && file.getName().endsWith(".mp3")) {
                 listener.statusChanges(file.getName());
-                songs.add(fromFile(file));
+                Song song = fromFile(file);
+                if (song != null) {
+                    songs.add(song);
+                }
 
             }
             if (file.isDirectory()) {
@@ -100,28 +103,29 @@ public class SongImporter {
             }
 
             newSong.setTitle(tag.getFirst(FieldKey.TITLE));
-            
+
             Artist novyArtist = new Artist();
             novyArtist.setName(tag.getFirst(FieldKey.ARTIST));
             newSong.setArtist(novyArtist);
-            
+
             Album novyAlbum = new Album();
             novyAlbum.setTracs(parseInt(tag.getFirst(FieldKey.TRACK_TOTAL)));
             novyAlbum.setTracs(parseInt(tag.getFirst(FieldKey.DISC_TOTAL)));
             novyAlbum.setName(tag.getFirst(FieldKey.ALBUM));
             newSong.setAlbum(novyAlbum);
-            
+
             Genre newGenre = new Genre();
             newGenre.setName(tag.getFirst(FieldKey.GENRE));
             newSong.setGenre(newGenre);
-            
+
             newSong.setTrack(parseInt(tag.getFirst(FieldKey.TRACK)));
             newSong.setYear(parseInt(tag.getFirst(FieldKey.YEAR)));
+            newSong.setFile_path(file);
 
             return newSong;
         } catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException ex) {
             // subor je chybny
-        } catch(Exception e) {
+        } catch (Exception e) {
             // ked uz bude chyba ktoru mi neobjavil ani sken terabajtu dát :)
             System.err.println("Unknown exception while loading " + file.toString());
         }

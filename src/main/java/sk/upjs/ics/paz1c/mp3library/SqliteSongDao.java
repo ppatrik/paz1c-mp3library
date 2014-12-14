@@ -48,7 +48,7 @@ class SqliteSongDao implements SongDao {
         song.performGenreExistsCheck();
         dataMap.put("genre_id", song.getGenre().getId());
         dataMap.put("rating", song.getRating());
-        dataMap.put("file_path", song.getFile_path());
+        dataMap.put("file_path", song.getFile_path().getAbsolutePath());
         dataMap.put("cover", song.getCover());
         dataMap.put("quality", song.getQuality());
         dataMap.put("format", song.getFormat());

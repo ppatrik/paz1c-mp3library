@@ -39,6 +39,8 @@ public class SongsTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Song song = songs.get(rowIndex);
         switch (columnIndex) {
+            case -1:
+                return song;
             case COLUMN_INDEX_TITLE:
                 return song.getTitle();
             case COLUMN_INDEX_ARTIST:
