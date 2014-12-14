@@ -3,29 +3,24 @@ package sk.upjs.ics.paz1c.mp3library;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.audio.mp3.MP3File;
 import org.jaudiotagger.tag.FieldKey;
-import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.TagException;
-import org.jaudiotagger.tag.TagField;
-import org.jaudiotagger.tag.id3.AbstractID3v2Tag;
-import org.jaudiotagger.tag.id3.ID3v1Tag;
 import org.jaudiotagger.tag.id3.ID3v24Tag;
 
 public class SongImporter {
 
     private SongImporterListener listener;
-    private SongDao songDao = BeanFactory.INSTANCE.songDao();
+    private final SongDao songDao = BeanFactory.INSTANCE.songDao();
 
     private Thread scannerThread;
-    private List<Song> songs = new ArrayList<>();
+    private final List<Song> songs = new ArrayList<>();
 
     public void setListener(SongImporterListener listener) {
         this.listener = listener;
@@ -60,6 +55,8 @@ public class SongImporter {
                             + songs.size() + ")");
                 }
                 listener.finished();
+                
+                System.out.println("scan finished");
             }
         });
         scannerThread.start();
@@ -83,7 +80,7 @@ public class SongImporter {
             if (file.isDirectory()) {
                 scanFolderDo(file);
             }
-            Thread.sleep(0);
+            //Thread.sleep(0);
         }
     }
 
@@ -123,9 +120,7 @@ public class SongImporter {
             newSong.setFile_path(file);
 
             return newSong;
-        } catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException ex) {
-            // subor je chybny
-        } catch (Exception e) {
+        } catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e) {
             // ked uz bude chyba ktoru mi neobjavil ani sken terabajtu dát :)
             System.err.println("Unknown exception while loading " + file.toString());
         }
@@ -141,9 +136,9 @@ public class SongImporter {
     }
 
     private void saveListToDatabase() {
-        for (int i = 0; i < songs.size(); i++) {
-            listener.statusChanges("Saving: " + songs.get(i).getTitle());
-            songDao.saveOrUpdate(songs.get(i));
+        for (Song song : songs) {
+            listener.statusChanges("Saving: " + song.getTitle());
+            songDao.saveOrUpdate(song);
         }
     }
 

@@ -6,20 +6,20 @@ import sk.upjs.ics.paz1c.mp3library.BeanFactory;
 import sk.upjs.ics.paz1c.mp3library.Song;
 import sk.upjs.ics.paz1c.mp3library.SongDao;
 
-public class AlbumSongsTableModel extends SongsTableModel {
+class ArtistSongsTableModel extends SongsTableModel {
 
     protected static final int SONGS_COLUMN_COUNT = 6;
 
     protected static final int COLUMN_INDEX_TITLE = 1;
     protected static final int COLUMN_INDEX_TRACK = 0;
-    protected static final int COLUMN_INDEX_ARTIST = 2;
-    protected static final int COLUMN_INDEX_ALBUM = 6;
+    protected static final int COLUMN_INDEX_ARTIST = 6;
+    protected static final int COLUMN_INDEX_ALBUM = 2;
     protected static final int COLUMN_INDEX_GENRE = 3;
     protected static final int COLUMN_INDEX_DISC = 4;
     protected static final int COLUMN_INDEX_YEAR = 5;
 
-    protected static final String[] COLUMN_NAMES = {"Číslo skladby", "Názov skladby", "Interpret", "Žáner", "Disk", "Rok"};
-    
+    protected static final String[] COLUMN_NAMES = {"Číslo skladby", "Názov skladby", "Album", "Žáner", "Disk", "Rok"};
+
     private final SongDao songDao = BeanFactory.INSTANCE.songDao();
 
     private final List<Song> songs = new LinkedList<Song>();
@@ -72,16 +72,19 @@ public class AlbumSongsTableModel extends SongsTableModel {
         return COLUMN_NAMES[column];
     }
 
+    @Override
     public Song getValueAt(int rowIndex) {
         return songs.get(rowIndex);
     }
 
+    @Override
     public void remove(int rowIndex) {
         // TODO: otazka ci naozaj zmazat
         songDao.delete(getValueAt(rowIndex));
         refresh();
     }
 
+    @Override
     public void refresh() {
         songs.clear();
         songs.addAll(songDao.findAll());

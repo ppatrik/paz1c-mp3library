@@ -1,6 +1,5 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
-import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -8,14 +7,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.paz1c.mp3library.gui.components.ImageJButton;
 
 public class MainDashboardForm extends JFrame {
 
+    private final SongsPanel panSongs = GuiFactory.INSTANCE.songsPanel();
+    private final AlbumsPanel panAlbums = GuiFactory.INSTANCE.albumsPanel();
+    private final ArtistsPanel panArtists = GuiFactory.INSTANCE.artistsPanel();
+    //private final GenresPanel panGenres = GuiFactory.INSTANCE.genresPanel();
+    
+    private final SongImporterDialog songImporterDialog = GuiFactory.INSTANCE.songImporterDialog();
+    
     private final ImageJButton btnSongs = new ImageJButton("songs.png");
     private final ImageJButton btnAlbums = new ImageJButton("albums.png");
     private final ImageJButton btnArtist = new ImageJButton("artists.png");
@@ -23,16 +26,7 @@ public class MainDashboardForm extends JFrame {
     private final JButton btnAddFile = new JButton("Add File");
 
     private final JPanel panNavigation;
-    private final JPanel panDashboard = new JPanel(new BorderLayout());
-
-    private final JTable tblTabulka = new JTable();
-
-    private JPanel panSongs;
-    private JPanel panAlbums;
-    private JPanel panArtists;
-    private JPanel panGenres;
-
-    private final SongImporterDialog songImporter = new SongImporterDialog();
+    private final JPanel panDashboard;
 
     public MainDashboardForm() {
         setTitle("MP3 Library");
@@ -41,15 +35,15 @@ public class MainDashboardForm extends JFrame {
 
         panNavigation = createNavigationPanel();
         add(panNavigation, BorderLayout.WEST);
+        
+        panDashboard = new JPanel(new BorderLayout());
         add(panDashboard, BorderLayout.CENTER);
 
-        btnSongsActionPerformed(null);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setPreferredSize(new Dimension(800, 600));
-
-        pack();
+        
+        // Otvorenie prveho panelu
+        btnSongsActionPerformed(null);
     }
 
     private JPanel createNavigationPanel() {
@@ -99,9 +93,6 @@ public class MainDashboardForm extends JFrame {
     }
 
     private void btnSongsActionPerformed(ActionEvent e) {
-        if (panSongs == null) {
-            panSongs = new SongsPanel(this);
-        }
         panDashboard.removeAll();
         panDashboard.add(panSongs, BorderLayout.CENTER);
         
@@ -114,9 +105,6 @@ public class MainDashboardForm extends JFrame {
     }
 
     private void btnAlbumsActionPerformed(ActionEvent e) {
-        if (panAlbums == null) {
-            panAlbums = new AlbumsPanel();
-        }
         panDashboard.removeAll();
         panDashboard.add(panAlbums, BorderLayout.CENTER);
 
@@ -129,10 +117,8 @@ public class MainDashboardForm extends JFrame {
     }
 
     private void btnArtistActionPerformed(ActionEvent e) {
-        if (panArtists == null) {
-            panArtists = new AlbumsPanel();
-        }
         panDashboard.removeAll();
+        panDashboard.add(panArtists, BorderLayout.CENTER);
 
         btnSongs.setUnchecked();
         btnArtist.setChecked();
@@ -143,18 +129,17 @@ public class MainDashboardForm extends JFrame {
     }
 
     private void btnAddFileActionPerformed(ActionEvent e) {
-        songImporter.importSong();
+        songImporterDialog.importSong();
     }
 
     private void btnAddFolderActionPerformed(ActionEvent e) {
-        songImporter.importFolder();
+        songImporterDialog.importFolder();
     }
-
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new WindowsLookAndFeel());
-
-        MainDashboardForm mainDashboardForm = new MainDashboardForm();
-        mainDashboardForm.setDefaultCloseOperation(MainDashboardForm.DISPOSE_ON_CLOSE);
-        mainDashboardForm.setVisible(true);
+    
+    public void refresh() {
+        panSongs.refresh();
+        panAlbums.refresh();
+        panArtists.refresh();
+        //panGenres.refresh();
     }
 }

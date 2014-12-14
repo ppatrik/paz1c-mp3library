@@ -3,6 +3,7 @@ package sk.upjs.ics.paz1c.mp3library.gui;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import sk.upjs.ics.paz1c.mp3library.SongImporter;
 import sk.upjs.ics.paz1c.mp3library.SongImporterListener;
 
@@ -17,21 +18,44 @@ public class SongImporterDialog {
     public class Listener implements SongImporterListener {
 
         private LoaderFrame frame = null;
+
         @Override
         public void started() {
-            frame = new LoaderFrame();
-            frame.setVisible(true);
+
+            SwingUtilities.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    frame = new LoaderFrame();
+                    frame.setVisible(true);
+                }
+            });
+
         }
 
         @Override
-        public void statusChanges(String message) {
-            frame.setMessage(message);
+        public void statusChanges(final String message) {
+            SwingUtilities.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    frame.setMessage(message);
+                }
+            });
+
         }
 
         @Override
         public void finished() {
-            frame.setVisible(false);
-            frame.dispose();
+            SwingUtilities.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    frame.setVisible(false);
+                    frame.dispose();
+                    GuiFactory.INSTANCE.mainDashboardForm().refresh();
+                }
+            });
         }
 
     }

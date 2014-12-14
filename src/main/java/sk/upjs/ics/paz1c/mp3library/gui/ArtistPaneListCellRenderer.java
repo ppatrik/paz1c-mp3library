@@ -8,33 +8,29 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import sk.upjs.ics.paz1c.mp3library.Album;
+import sk.upjs.ics.paz1c.mp3library.Artist;
 
-/**
- *
- * @author patrik
- */
-class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
+class ArtistPaneListCellRenderer implements ListCellRenderer<Artist> {
 
     //private ImageCoverService imageCoverService = BeanFactory.INSTANCE.imageCoverService();
     private DefaultListCellRenderer delegate = new DefaultListCellRenderer();
 
-    private Icon getIcon(Album album) {
+    private Icon getIcon(Artist artist) {
         //ImageIcon imageCover = imageCoverService.getImageCover(book);
         //if (imageCover == null) {
-            URL bookIconUrl = AlbumPaneListCellRenderer.class.getResource("book-icon.png");
+            URL bookIconUrl = ArtistPaneListCellRenderer.class.getResource("book-icon.png");
             return new ImageIcon(bookIconUrl);
         //}
         //return imageCover;
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends Album> list, Album album, int index, boolean isSelected, boolean cellHasFocus) {
-        Component component = delegate.getListCellRendererComponent(list, album, index, isSelected, cellHasFocus);
+    public Component getListCellRendererComponent(JList<? extends Artist> list, Artist artist, int index, boolean isSelected, boolean cellHasFocus) {
+        Component component = delegate.getListCellRendererComponent(list, artist, index, isSelected, cellHasFocus);
         if (component instanceof JLabel) {
             JLabel label = (JLabel) component;
-            label.setText(album.getName());
-            label.setIcon(getIcon(album));
+            label.setText(artist.getName());
+            label.setIcon(getIcon(artist));
             return label;
         } else {
             throw new ClassCastException("Illegal JList component type. "

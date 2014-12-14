@@ -6,22 +6,14 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
 import java.awt.Desktop;
-import java.awt.PopupMenu;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import sk.upjs.ics.paz1c.mp3library.Song;
 
 public class TableClickListener implements MouseListener {
-    
-    private JFrame opener;
-    
-    public TableClickListener(JFrame opener) {
-        this.opener = opener;
-    }
 
     private Song getInfo(MouseEvent e) {
         JTable source = (JTable) e.getSource();
@@ -42,7 +34,7 @@ public class TableClickListener implements MouseListener {
         if (e.isPopupTrigger()) {
             Song song = getInfo(e);
             TablePopupMenu popupMenu = new TablePopupMenu();
-            popupMenu.generate(song, e.getComponent(), this.opener);
+            popupMenu.generate(song, e.getComponent(), GuiFactory.INSTANCE.mainDashboardForm());
 
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
         }

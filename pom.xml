@@ -24,7 +24,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathLayoutType>simple</classpathLayoutType>
                             <classpathPrefix>./lib/</classpathPrefix>
-                            <mainClass>sk.upjs.ics.paz1c.mp3library.gui.MainDashboardForm</mainClass>
+                            <mainClass>sk.upjs.ics.paz1c.mp3library.starter.Starter</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

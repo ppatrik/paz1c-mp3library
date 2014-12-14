@@ -1,12 +1,10 @@
 package sk.upjs.ics.paz1c.mp3library;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Properties;
 import javax.sql.DataSource;
-import org.springframework.dao.support.DaoSupport;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.sqlite.SQLiteDataSource;
 
