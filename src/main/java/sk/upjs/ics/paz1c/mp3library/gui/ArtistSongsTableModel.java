@@ -2,6 +2,7 @@ package sk.upjs.ics.paz1c.mp3library.gui;
 
 import java.util.LinkedList;
 import java.util.List;
+import sk.upjs.ics.paz1c.mp3library.Artist;
 import sk.upjs.ics.paz1c.mp3library.BeanFactory;
 import sk.upjs.ics.paz1c.mp3library.Song;
 import sk.upjs.ics.paz1c.mp3library.SongDao;
@@ -24,6 +25,8 @@ class ArtistSongsTableModel extends SongsTableModel {
 
     private final List<Song> songs = new LinkedList<Song>();
 
+    private Artist artist = null;
+    
     @Override
     public int getRowCount() {
         return songs.size();
@@ -87,8 +90,15 @@ class ArtistSongsTableModel extends SongsTableModel {
     @Override
     public void refresh() {
         songs.clear();
-        songs.addAll(songDao.findAll());
+        
+        if(artist!=null) {
+            songs.addAll(songDao.findAllByArtist(artist));
+        }
 
         fireTableDataChanged();
+    }
+    
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 }

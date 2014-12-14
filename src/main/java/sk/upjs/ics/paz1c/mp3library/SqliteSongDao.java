@@ -35,27 +35,28 @@ class SqliteSongDao implements SongDao {
         if(song==null)
             return;
         
+        song.performArtistExistsCheck();
+        song.performAlbumExistsCheck();
+        song.performGenreExistsCheck();
+        
+        BeanFactory.INSTANCE.artistDao().saveOrUpdate(song.getArtist());
+        BeanFactory.INSTANCE.albumDao().saveOrUpdate(song.getAlbum());
+        BeanFactory.INSTANCE.genreDao().saveOrUpdate(song.getGenre());
+        
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("song_id", song.getId());
         dataMap.put("title", song.getTitle());
-        song.performArtistExistsCheck();
         dataMap.put("artist_id", song.getArtist().getId());
-        song.performAlbumExistsCheck();
         dataMap.put("album_id", song.getAlbum().getId());
         dataMap.put("year", song.getYear());
         dataMap.put("track", song.getTrack());
         dataMap.put("disc", song.getDisc());
-        song.performGenreExistsCheck();
         dataMap.put("genre_id", song.getGenre().getId());
         dataMap.put("rating", song.getRating());
         dataMap.put("file_path", song.getFile_path().getAbsolutePath());
         dataMap.put("cover", song.getCover());
         dataMap.put("quality", song.getQuality());
         dataMap.put("format", song.getFormat());
-
-        BeanFactory.INSTANCE.artistDao().saveOrUpdate(song.getArtist());
-        BeanFactory.INSTANCE.albumDao().saveOrUpdate(song.getAlbum());
-        BeanFactory.INSTANCE.genreDao().saveOrUpdate(song.getGenre());
 
         if (song.getId() == null) {
             insert(song, dataMap);
