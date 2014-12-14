@@ -2,6 +2,8 @@ package sk.upjs.ics.paz1c.mp3library;
 
 public class Album {
 
+    private static final long NULL_ID = Long.MIN_VALUE;
+
     private Long id;
     private String name;
     private Integer tracs;
@@ -39,4 +41,13 @@ public class Album {
         this.discs = discs;
     }
 
+    public static Album getNull() {
+        Album album = new Album();
+        album.setId(NULL_ID);
+        return album;
+    }
+
+    public static boolean isNull(Album album) {
+        return NULL_ID == album.getId();
+    }
 }

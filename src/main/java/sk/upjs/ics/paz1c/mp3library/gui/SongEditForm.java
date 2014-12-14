@@ -1,36 +1,19 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
-import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
-import javax.swing.text.MaskFormatter;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.paz1c.mp3library.Album;
-import sk.upjs.ics.paz1c.mp3library.AlbumDao;
 import sk.upjs.ics.paz1c.mp3library.Artist;
 import sk.upjs.ics.paz1c.mp3library.BeanFactory;
 import sk.upjs.ics.paz1c.mp3library.Genre;
@@ -38,128 +21,154 @@ import sk.upjs.ics.paz1c.mp3library.Song;
 
 public class SongEditForm extends JDialog {
 
-    private JLabel lblTitle = new JLabel("Title:");
+    private final JLabel lblTitle = new JLabel("Title:");
+    private final JLabel lblArtist = new JLabel("Artist:");
+    private final JLabel lblAlbum = new JLabel("Album:");
+    private final JLabel lblYear = new JLabel("Year:");
+    private final JLabel lblTrack = new JLabel("Track no:");
+    private final JLabel lblDisc = new JLabel("Disc no:");
+    private final JLabel lblGenre = new JLabel("Genre:");
+    private final JLabel lblRating = new JLabel("Rating:");
+    private final JLabel lblFile_path = new JLabel("Path:");
+    private final JLabel lblCover = new JLabel("Cover:");
+    private final JLabel lblQuality = new JLabel("Quality:");
+    private final JLabel lblFormat = new JLabel("Format:");
 
-    private JLabel lblArtist = new JLabel("Artist:");
+    private final JTextField txtTitle = new JTextField();
+    private final JComboBox cmbArtist = new JComboBox();
+    private final JButton btnArtistAdd = new JButton("+");
+    private final JComboBox cmbAlbum = new JComboBox();
+    private final JButton btnAlbumAdd = new JButton("+");
+    private final JTextField txtYear = new JTextField();
+    private final JSpinner spTrack = new JSpinner();
+    private final JSpinner spDisc = new JSpinner();
+    private final JComboBox cmbGenre = new JComboBox();
+    private final JButton btnGenreAdd = new JButton("+");
+    private final JSpinner spRating = new JSpinner();
+    private final JTextField txtFile_path = new JTextField();
+    private final JTextField txtCover = new JTextField();
+    private final JTextField txtQuality = new JTextField();
+    private final JTextField txtFormat = new JTextField();
 
-    private JLabel lblGenre = new JLabel("Genre:");
+    private final JButton btnOk = new JButton("OK");
+    private final JButton btnCancel = new JButton("Cancel");
+
+    private final AlbumListCellRenderer albumListCellRenderer = new AlbumListCellRenderer();
     
-    private JLabel lblYear = new JLabel("Year:");
-
-    private JLabel lblTrack = new JLabel("Track:");
-
-    private JLabel lblAlbum = new JLabel("Album:");
-
-    private JLabel lblQuality = new JLabel("Quality:");
-
-    private JSpinner spTrack = new JSpinner();
-
-    private JLabel lblRating = new JLabel("Rating:");
-
-    private JSpinner spRating = new JSpinner();
-
-    private JLabel lblDisc = new JLabel("Disc:");
-
-    private JSpinner spDisc = new JSpinner();
-
-    private JTextField txtQuality = new JTextField();
-
-    private JTextField txtAlbum = new JTextField();
-
-    private JTextField txtArtist = new JTextField();
-
-    private JTextField txtTitle = new JTextField();
-    ;
-    
-    private JComboBox cmbPublisher = new JComboBox();
-
-    //   private ListCellRenderer albumListCellRenderer = new AlbumPaneListCellRenderer();
-    private JButton btnGenreAdd = new JButton("+");
-
-    private JFormattedTextField txtYear = new JFormattedTextField(createYearFormatter());
-
-    private JLabel lblCover = new JLabel("Cover:");
-
-    private JButton btnOk = new JButton("OK");
-
-    private JButton btnCancel = new JButton("Cancel");
-
     private Song song;
 
     public SongEditForm(Frame owner) {
         this(owner, new Song());
     }
-    
 
     public SongEditForm(Frame owner, Song song) {
         super(owner, "Edit Song", /* modal*/ true);
 
         this.song = song;
 
-        setLayout(new MigLayout("wrap 3, width 400:300:", "[][grow, fill][]", "[][][][][][][][][][nogrid]"));
-        
-        /* -- Titles - */
-        add(lblTitle);
+        setLayout(new MigLayout("wrap 3, width 400:300:", "[][grow, fill][]", "[][][][][][][][][][][][][nogrid]"));
 
+        /* -- Title - */
+        add(lblTitle);
         add(txtTitle, "span 2");
         txtTitle.setText(song.getTitle());
 
-        /* -- Artists-*/
+        /* -- Artist - */
         add(lblArtist);
-        add(txtArtist, "span 2");
-        txtArtist.setText(song.getArtist().getName());
+        refreshCmbArtistModel();
+        if (song.getArtist() != null) {
+            cmbArtist.setSelectedItem(song.getArtist());
+        }
+        add(cmbArtist);
+
+        add(btnArtistAdd);
+        btnArtistAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnArtistAddActionPerformed(e);
+            }
+        });
+
+        /* -- Album - */
+        add(lblAlbum);
+        refreshCmbAlbumModel();
+        cmbAlbum.setRenderer(albumListCellRenderer);
+        if (song.getAlbum() != null) {
+            // TODO: ono by to aj islo len to nieje rovnaky objekt tj. kontrolovat podla inych parametrov
+            cmbAlbum.setSelectedItem(song.getAlbum());
+        }
+        add(cmbAlbum);
+
+        add(btnAlbumAdd);
+        btnAlbumAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnAlbumAddActionPerformed(e);
+            }
+        });
+
+        /* -- Year - */
+        add(lblYear);
+        add(txtYear, "span 2");
+        txtYear.setText(Integer.toString(song.getYear()));
+
+        /* -- Track - */
+        add(lblTrack);
+        add(spTrack, "span 2");
+        spTrack.setValue(song.getTrack());
+
+        /* -- Disc - */
+        add(lblDisc);
+        add(spDisc, "span 2");
+        spDisc.setValue(song.getDisc());
 
         /* -- Genre - */
         add(lblGenre);
-
-        refreshCmbPublisherModel();
+        refreshCmbGenreModel();
         //  cmbPublisher.setRenderer(albumListCellRenderer);
         if (song.getGenre() != null) {
-            cmbPublisher.setSelectedItem(song.getGenre());
+            cmbGenre.setSelectedItem(song.getGenre());
         }
-
-        add(cmbPublisher);
+        add(cmbGenre);
 
         add(btnGenreAdd);
         btnGenreAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //   btnPublisherAddActionPerformed(e);
+                btnGenreAddActionPerformed(e);
             }
         });
 
-        /* -- Album */
-        add(lblAlbum);
-        add(txtAlbum, "span 2");
-        txtAlbum.setText(song.getAlbum().getName());
-
-        /* -- Year - */
-        add(lblYear);
-
-        add(txtYear, "span 2");
-        txtYear.setText(Integer.toString(song.getYear()));
-
-        /* -- Rating */
+        /* -- Rating - */
         add(lblRating);
         add(spRating, "span 2");
         spRating.setValue(song.getRating());
 
-        /* -- TRacks */
-        add(lblTrack);
+        /* -- File_path - */
+        add(lblFile_path);
+        add(txtFile_path, "span 2");
+        if (song.getFile_path() != null) {
+            txtFile_path.setText(song.getFile_path().getAbsolutePath());
+        }
 
-        add(spTrack, "span 2");
-        spTrack.setValue(song.getTrack());
+        /* -- Cover - */
+        add(lblCover);
+        add(txtCover, "span 2");
+        if (song.getCover() != null) {
+            txtCover.setText(song.getCover().toString());
+        }
 
-        /* -- DIsc */
-        add(lblDisc);
-        add(spDisc, "span 2");
-        spDisc.setValue(song.getDisc());
-
-        /*-- Quality */
+        /* -- Quality - */
         add(lblQuality);
         add(txtQuality, "span 2");
         txtQuality.setText(song.getQuality().toString());
 
+        /* -- Format - */
+        add(lblFormat);
+        add(txtFormat, "span 2");
+        txtFormat.setText(song.getFormat());
+
+        /* -- Buttons - */
         add(btnOk, "tag ok");
         btnOk.addActionListener(new ActionListener() {
             @Override
@@ -182,41 +191,71 @@ public class SongEditForm extends JDialog {
         setLocationRelativeTo(null);
     }
 
-    private JFormattedTextField.AbstractFormatter createYearFormatter() {
+    /*private JFormattedTextField.AbstractFormatter createYearFormatter() {
         try {
             return new MaskFormatter("####");
         } catch (ParseException e) {
             // should not happen
             throw new IllegalStateException("Illegal syntax for year formatter");
         }
+    }*/
+
+    private ComboBoxModel getArtistComboBoxModel() {
+        List<Artist> artists = BeanFactory.INSTANCE.artistDao().findAll();
+        return new DefaultComboBoxModel(artists.toArray());
     }
 
-    private ComboBoxModel getPublisherComboBoxModel() {
+    private ComboBoxModel getAlbumComboBoxModel() {
+        List<Album> albums = BeanFactory.INSTANCE.albumDao().findAll();
+        return new DefaultComboBoxModel(albums.toArray());
+    }
+
+    private ComboBoxModel getGenreComboBoxModel() {
         List<Genre> genres = BeanFactory.INSTANCE.genreDao().findAll();
         return new DefaultComboBoxModel(genres.toArray());
     }
 
+    private void btnArtistAddActionPerformed(ActionEvent e) {
+        // TODO: pridanie noveho formatu
+        refreshCmbArtistModel();
+    }
+
+    private void btnAlbumAddActionPerformed(ActionEvent e) {
+        // TODO: pridanie noveho formatu
+        refreshCmbAlbumModel();
+    }
+
+    private void btnGenreAddActionPerformed(ActionEvent e) {
+        // TODO: pridanie noveho formatu
+        refreshCmbGenreModel();
+    }
+
+    private void refreshCmbArtistModel() {
+        cmbArtist.setModel(getArtistComboBoxModel());
+    }
+
+    private void refreshCmbAlbumModel() {
+        cmbAlbum.setModel(getAlbumComboBoxModel());
+    }
+
+    private void refreshCmbGenreModel() {
+        cmbGenre.setModel(getGenreComboBoxModel());
+    }
+
     private void btnOkActionPerformed(ActionEvent e) {
         song.setTitle(txtTitle.getText());
-
-        song.setGenre((Genre) cmbPublisher.getSelectedItem());
-
+        song.setArtist((Artist) cmbArtist.getSelectedItem());
+        song.setAlbum((Album) cmbAlbum.getSelectedItem());
         song.setYear(Integer.valueOf(txtYear.getText()));
-
-        Artist newArtist = new Artist();
-        newArtist.setName(txtArtist.getText());
-        song.setArtist(newArtist);
-
         song.setTrack((Integer) spTrack.getValue());
-
-        Album newAlbum = new Album();
-        newAlbum.setName(txtAlbum.getText());
-        song.setAlbum(newAlbum);
-
+        song.setDisc((Integer) spDisc.getValue());
+        song.setGenre((Genre) cmbGenre.getSelectedItem());
         song.setRating((Integer) spRating.getValue());
+        // TODO: cover
 
         BeanFactory.INSTANCE.songDao().saveOrUpdate(song);
-
+        GuiFactory.INSTANCE.mainDashboardForm().refresh();
+                
         setVisible(false);
     }
 
@@ -224,12 +263,4 @@ public class SongEditForm extends JDialog {
         setVisible(false);
     }
 
-
-    /* private void btnGenreAddActionPerformed(ActionEvent e) {
-        
-     refreshCmbPublisherModel();
-     }*/
-    private void refreshCmbPublisherModel() {
-        cmbPublisher.setModel(getPublisherComboBoxModel());
-    }
 }

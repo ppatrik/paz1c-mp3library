@@ -126,21 +126,23 @@ public class Song {
     public void performArtistExistsCheck() {
         ArtistDao artistDao = BeanFactory.INSTANCE.artistDao();
         Artist exists = artistDao.findByName(artist.getName());
-        if(exists != null) {
+        if (exists != null) {
             artist = exists;
         }
     }
+
     public void performAlbumExistsCheck() {
         AlbumDao albumDao = BeanFactory.INSTANCE.albumDao();
         Album exists = albumDao.findByName(album.getName());
-        if(exists != null) {
+        if (exists != null) {
             album = exists;
         }
     }
+
     public void performGenreExistsCheck() {
         GenreDao genreDao = BeanFactory.INSTANCE.genreDao();
         Genre exists = genreDao.findByName(genre.getName());
-        if(exists != null) {
+        if (exists != null) {
             genre = exists;
         }
     }
