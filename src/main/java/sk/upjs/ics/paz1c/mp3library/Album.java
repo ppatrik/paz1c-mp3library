@@ -1,5 +1,7 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.util.Objects;
+
 public class Album {
 
     private static final long NULL_ID = Long.MIN_VALUE;
@@ -49,5 +51,28 @@ public class Album {
 
     public static boolean isNull(Album album) {
         return NULL_ID == album.getId();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.tracs);
+        hash = 59 * hash + Objects.hashCode(this.discs);
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Album{" + "id=" + id + ", name=" + name + "}";
     }
 }

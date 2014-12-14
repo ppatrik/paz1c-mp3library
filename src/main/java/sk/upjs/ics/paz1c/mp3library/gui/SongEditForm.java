@@ -53,7 +53,9 @@ public class SongEditForm extends JDialog {
     private final JButton btnOk = new JButton("OK");
     private final JButton btnCancel = new JButton("Cancel");
 
+    private final ArtistListCellRenderer artistListCellRenderer = new ArtistListCellRenderer();
     private final AlbumListCellRenderer albumListCellRenderer = new AlbumListCellRenderer();
+    private final GenreListCellRenderer genreListCellRenderer = new GenreListCellRenderer();
     
     private Song song;
 
@@ -76,6 +78,7 @@ public class SongEditForm extends JDialog {
         /* -- Artist - */
         add(lblArtist);
         refreshCmbArtistModel();
+        cmbArtist.setRenderer(artistListCellRenderer);
         if (song.getArtist() != null) {
             cmbArtist.setSelectedItem(song.getArtist());
         }
@@ -93,8 +96,7 @@ public class SongEditForm extends JDialog {
         add(lblAlbum);
         refreshCmbAlbumModel();
         cmbAlbum.setRenderer(albumListCellRenderer);
-        if (song.getAlbum() != null) {
-            // TODO: ono by to aj islo len to nieje rovnaky objekt tj. kontrolovat podla inych parametrov
+        if (song.getAlbum()!= null) {
             cmbAlbum.setSelectedItem(song.getAlbum());
         }
         add(cmbAlbum);
@@ -125,7 +127,7 @@ public class SongEditForm extends JDialog {
         /* -- Genre - */
         add(lblGenre);
         refreshCmbGenreModel();
-        //  cmbPublisher.setRenderer(albumListCellRenderer);
+        cmbGenre.setRenderer(genreListCellRenderer);
         if (song.getGenre() != null) {
             cmbGenre.setSelectedItem(song.getGenre());
         }
@@ -147,12 +149,14 @@ public class SongEditForm extends JDialog {
         /* -- File_path - */
         add(lblFile_path);
         add(txtFile_path, "span 2");
+        txtFile_path.setEditable(false);
         if (song.getFile_path() != null) {
             txtFile_path.setText(song.getFile_path().getAbsolutePath());
         }
 
         /* -- Cover - */
         add(lblCover);
+        txtCover.setEditable(false);
         add(txtCover, "span 2");
         if (song.getCover() != null) {
             txtCover.setText(song.getCover().toString());
@@ -160,11 +164,13 @@ public class SongEditForm extends JDialog {
 
         /* -- Quality - */
         add(lblQuality);
+        txtQuality.setEditable(false);
         add(txtQuality, "span 2");
         txtQuality.setText(song.getQuality().toString());
 
         /* -- Format - */
         add(lblFormat);
+        txtFormat.setEditable(false);
         add(txtFormat, "span 2");
         txtFormat.setText(song.getFormat());
 
@@ -262,5 +268,4 @@ public class SongEditForm extends JDialog {
     private void btnCancelActionPerformed(ActionEvent e) {
         setVisible(false);
     }
-
 }

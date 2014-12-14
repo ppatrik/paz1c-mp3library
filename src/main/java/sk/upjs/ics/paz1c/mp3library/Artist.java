@@ -1,6 +1,7 @@
 package sk.upjs.ics.paz1c.mp3library;
 
 import java.net.URL;
+import java.util.Objects;
 
 public class Artist {
 
@@ -30,6 +31,23 @@ public class Artist {
 
     public void setWiki(URL wiki) {
         this.wiki = wiki;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.id);
+        hash = 19 * hash + Objects.hashCode(this.name);
+        hash = 19 * hash + Objects.hashCode(this.wiki);
+        return hash;
     }
 
 }
