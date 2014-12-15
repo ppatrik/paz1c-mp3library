@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import sk.upjs.ics.paz1c.mp3library.Song;
 
 class SongsPanel extends JPanel implements PanelInterface {
 
@@ -15,7 +14,7 @@ class SongsPanel extends JPanel implements PanelInterface {
 
     public SongsPanel() {
         super(new BorderLayout());
-        
+
         tblSongs.setModel(songsTableModel);
         tblSongs.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tblSongs.setAutoCreateRowSorter(true);
@@ -24,14 +23,10 @@ class SongsPanel extends JPanel implements PanelInterface {
         tblSongs.addMouseListener(new SongClickListener());
 
         refresh();
-        
+
         add(scrollPane, BorderLayout.CENTER);
     }
-    public Song getSong(){
-        return songsTableModel.getValueAt(tblSongs.getSelectedRow());
-    }
-    
-    
+
     @Override
     public void refresh() {
         songsTableModel.refresh();
