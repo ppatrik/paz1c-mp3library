@@ -62,6 +62,9 @@ class ArtistsPanel extends JPanel implements PanelInterface {
 
         refresh();
 
+        lstArtists.setSelectedIndex(0);
+        lstArtistsSelectionChanged(null);
+
         add(lstArtistScrollPane, BorderLayout.WEST);
         add(tblSongsScrollPane, BorderLayout.CENTER);
     }

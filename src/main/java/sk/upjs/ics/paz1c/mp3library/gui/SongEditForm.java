@@ -1,6 +1,6 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
@@ -15,6 +15,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.paz1c.mp3library.Album;
 import sk.upjs.ics.paz1c.mp3library.Artist;
@@ -71,7 +72,9 @@ public class SongEditForm extends JDialog {
 
         this.song = song;
 
-        setLayout(new MigLayout("wrap 3, width 400:300:", "[][grow, fill][]", "[][][][][][][][][][][][][nogrid]"));
+        MigLayout migLayout = new MigLayout("wrap 3, w 400", "[][grow, fill][]", "[][][][][][][][][][][][][nogrid]");
+        setLayout(migLayout);
+
 
         /* -- Title - */
         add(lblTitle);
@@ -269,15 +272,21 @@ public class SongEditForm extends JDialog {
     }
 
     private void refreshCmbArtistModel() {
+        Artist artist = (Artist) cmbArtist.getSelectedItem();
         cmbArtist.setModel(getArtistComboBoxModel());
+        cmbArtist.setSelectedItem(artist);
     }
 
     private void refreshCmbAlbumModel() {
+        Album album = (Album) cmbAlbum.getSelectedItem();
         cmbAlbum.setModel(getAlbumComboBoxModel());
+        cmbAlbum.setSelectedItem(album);
     }
 
     private void refreshCmbGenreModel() {
+        Genre genre = (Genre) cmbGenre.getSelectedItem();
         cmbGenre.setModel(getGenreComboBoxModel());
+        cmbGenre.setSelectedItem(genre);
     }
 
     private void btnOkActionPerformed(ActionEvent e) {

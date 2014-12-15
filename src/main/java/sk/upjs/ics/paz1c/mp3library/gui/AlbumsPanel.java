@@ -66,6 +66,9 @@ class AlbumsPanel extends JPanel implements PanelInterface {
 
         refresh();
 
+        lstAlbums.setSelectedIndex(0);
+        lstAlbumsSelectionChanged(null);
+
         add(lstAlbumsScrollPane, BorderLayout.WEST);
         add(tblSongsScrollPane, BorderLayout.CENTER);
     }

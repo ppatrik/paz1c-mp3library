@@ -39,7 +39,7 @@ public class AlbumEditForm extends JDialog {
 
         this.album = album;
 
-        setLayout(new MigLayout("wrap 3, width 400:300:", "[][grow, fill][]", "[][][][nogrid]"));
+        setLayout(new MigLayout("wrap 3, w 400", "[][grow, fill][]", "[][][][nogrid]"));
 
         /* -- Name - */
         add(lblName);
