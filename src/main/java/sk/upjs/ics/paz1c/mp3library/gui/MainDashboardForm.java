@@ -81,6 +81,7 @@ public class MainDashboardForm extends JFrame {
                 btnAddFileActionPerformed(e);
             }
         });
+        
 
         btnAddFolder.addActionListener(new ActionListener() {
             @Override
@@ -135,6 +136,7 @@ public class MainDashboardForm extends JFrame {
     private void btnAddFolderActionPerformed(ActionEvent e) {
         songImporterDialog.importFolder();
     }
+    
     
     public void refresh() {
         panSongs.refresh();
