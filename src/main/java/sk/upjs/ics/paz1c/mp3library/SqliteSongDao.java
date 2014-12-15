@@ -32,28 +32,45 @@ class SqliteSongDao implements SongDao {
 
     @Override
     public void saveOrUpdate(Song song) {
-        if(song==null)
+        if (song == null) {
             return;
-        
+        }
+
         song.performArtistExistsCheck();
         song.performAlbumExistsCheck();
         song.performGenreExistsCheck();
-        
+
         BeanFactory.INSTANCE.artistDao().saveOrUpdate(song.getArtist());
         BeanFactory.INSTANCE.albumDao().saveOrUpdate(song.getAlbum());
         BeanFactory.INSTANCE.genreDao().saveOrUpdate(song.getGenre());
-        
+
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("song_id", song.getId());
         dataMap.put("title", song.getTitle());
-        dataMap.put("artist_id", song.getArtist().getId());
-        dataMap.put("album_id", song.getAlbum().getId());
+        if (song.getArtist() != null) {
+            dataMap.put("artist_id", song.getArtist().getId());
+        } else {
+            dataMap.put("artist_id", null);
+        }
+        if (song.getAlbum() != null) {
+            dataMap.put("album_id", song.getAlbum().getId());
+        } else {
+            dataMap.put("album_id", null);
+        }
         dataMap.put("year", song.getYear());
         dataMap.put("track", song.getTrack());
         dataMap.put("disc", song.getDisc());
-        dataMap.put("genre_id", song.getGenre().getId());
+        if (song.getGenre() != null) {
+            dataMap.put("genre_id", song.getGenre().getId());
+        } else {
+            dataMap.put("genre_id", null);
+        }
         dataMap.put("rating", song.getRating());
-        dataMap.put("file_path", song.getFile_path().getAbsolutePath());
+        if (song.getFile_path() != null) {
+            dataMap.put("file_path", song.getFile_path().getAbsolutePath());
+        } else {
+            dataMap.put("file_path", null);
+        }
         dataMap.put("cover", song.getCover());
         dataMap.put("quality", song.getQuality());
         dataMap.put("format", song.getFormat());

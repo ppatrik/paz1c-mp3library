@@ -13,7 +13,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import net.miginfocom.swing.MigLayout;

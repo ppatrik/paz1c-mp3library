@@ -16,11 +16,10 @@ import sk.upjs.ics.paz1c.mp3library.GenreDao;
 import sk.upjs.ics.paz1c.mp3library.Song;
 
 public class SongRowMapper implements RowMapper<Song> {
-    
+
     private final ArtistDao artistDao = BeanFactory.INSTANCE.artistDao();
     private final AlbumDao albumDao = BeanFactory.INSTANCE.albumDao();
     private final GenreDao genreDao = BeanFactory.INSTANCE.genreDao();
-    
 
     @Override
     public Song mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -34,20 +33,23 @@ public class SongRowMapper implements RowMapper<Song> {
         song.setDisc(rs.getInt("disc"));
         song.setGenre(genreDao.findById(rs.getLong("genre_id")));
         song.setRating(rs.getInt("rating"));
-        
-        song.setFile_path(new File(rs.getString("file_path")));
-        
+
+        try {
+            song.setFile_path(new File(rs.getString("file_path")));
+        } catch (NullPointerException e) {
+            song.setFile_path(null);
+        }
+
         /*try {
-            InputStream binaryStream = rs.getBinaryStream("cover");
-            BufferedImage bufferedImage = ImageIO.read(binaryStream);
-            song.setCover(new ImageIcon(bufferedImage));
-        } catch (IOException | java.lang.NullPointerException e) {
-            throw new SQLException("Unable to convert image cover data", e);
-        }*/
-        
+         InputStream binaryStream = rs.getBinaryStream("cover");
+         BufferedImage bufferedImage = ImageIO.read(binaryStream);
+         song.setCover(new ImageIcon(bufferedImage));
+         } catch (IOException | java.lang.NullPointerException e) {
+         throw new SQLException("Unable to convert image cover data", e);
+         }*/
         song.setQuality(rs.getInt("quality"));
         song.setFormat(rs.getString("format"));
-        
+
         return song;
     }
 

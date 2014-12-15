@@ -33,7 +33,7 @@ class SqlQueries {
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM songs WHERE song_id = ?";
         public static String FIND_ONE_BY_FILE_PATH
-                = "SELECT * FROM songs WHERE file_path = ?";
+                = "SELECT * FROM songs WHERE file_path = ? LIMIT 1";
     }
 
     public static class Album {
@@ -49,7 +49,7 @@ class SqlQueries {
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM albums WHERE album_id = ?";
         public static String FIND_ONE_BY_NAME
-                = "SELECT * FROM albums WHERE name = ?";
+                = "SELECT * FROM albums WHERE name = ? LIMIT 1";
     }
 
     public static class Artist {
@@ -65,7 +65,7 @@ class SqlQueries {
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM artists WHERE artist_id = ?";
         public static String FIND_ONE_BY_NAME
-                = "SELECT * FROM artists WHERE name = ?";
+                = "SELECT * FROM artists WHERE name = ? LIMIT 1";
     }
 
     public static class Genre {
@@ -81,6 +81,6 @@ class SqlQueries {
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM genres WHERE genre_id = ?";
         public static String FIND_ONE_BY_NAME
-                = "SELECT * FROM genres WHERE name = ?";
+                = "SELECT * FROM genres WHERE name = ? LIMIT 1";
     }
 }
