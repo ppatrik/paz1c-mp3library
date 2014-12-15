@@ -84,7 +84,7 @@ public class MainDashboardForm extends JFrame {
             }
         });
         
-        btnAlbums.addActionListener(new ActionListener() {
+        btnEditFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btnEditFileActionPerformed(e);
