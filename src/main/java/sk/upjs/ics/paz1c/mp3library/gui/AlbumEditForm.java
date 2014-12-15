@@ -49,9 +49,7 @@ public class AlbumEditForm extends JDialog {
         /* -- Tracks - */
         add(lblTracks);
         add(txtTracks, "span 2");
-        System.out.println(album);
         if (album.getTracks() != null) {
-            System.out.println(album.getTracks());
             txtTracks.setText(album.getTracks().toString());
         }
 

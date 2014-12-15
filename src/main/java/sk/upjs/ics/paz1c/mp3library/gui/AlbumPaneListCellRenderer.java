@@ -49,7 +49,7 @@ class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
             SongDao songDao = BeanFactory.INSTANCE.songDao();
             List<Song> song = songDao.findAllByAlbum(album);
             for (Song s : song) {
-                System.out.println(s.getFile_path().getAbsoluteFile());
+                System.err.println(s.getFile_path().getAbsoluteFile());
                 MP3File f = (MP3File) AudioFileIO.read(s.getFile_path());
                 ID3v24Tag tag = f.getID3v2TagAsv24();
 

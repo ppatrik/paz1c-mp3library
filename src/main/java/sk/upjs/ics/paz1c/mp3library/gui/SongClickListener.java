@@ -47,7 +47,7 @@ public class SongClickListener implements MouseListener {
             try {
                 Desktop.getDesktop().open(song.getFile_path());
             } catch (IOException ex) {
-                System.out.println("Nepodarilo sa otvorit");
+                System.err.println("Nepodarilo sa otvorit");
             }
         }
     }

@@ -70,7 +70,7 @@ public enum BeanFactory {
         try {
             new SqliteMigration(jdbcTemplate).migrate();
         } catch (SQLException ex) {
-            System.out.println("Zavazny databazovy problem, pri inicializacii nebola dostupna");
+            System.err.println("Zavazny databazovy problem, pri inicializacii nebola dostupna");
         }
 
     }

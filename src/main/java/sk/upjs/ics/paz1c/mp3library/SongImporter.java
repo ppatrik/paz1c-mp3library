@@ -55,8 +55,6 @@ public class SongImporter {
                             + songs.size() + ")");
                 }
                 listener.finished();
-                
-                System.out.println("scan finished");
             }
         });
         scannerThread.start();
