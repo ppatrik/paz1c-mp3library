@@ -24,6 +24,7 @@ public class MainDashboardForm extends JFrame {
     private final ImageJButton btnArtist = new ImageJButton("artists.png");
     private final JButton btnAddFolder = new JButton("Add Folder");
     private final JButton btnAddFile = new JButton("Add File");
+    private final JButton btnEditFile = new JButton("Edit File");
 
     private final JPanel panNavigation;
     private final JPanel panDashboard;
@@ -50,9 +51,10 @@ public class MainDashboardForm extends JFrame {
         JPanel navigationPanel = new JPanel(new MigLayout("gap rel 0, insets 0"));
         navigationPanel.add(btnSongs, "wrap, grow, h 30%");
         navigationPanel.add(btnAlbums, "wrap, grow, h 30%");
-        navigationPanel.add(btnArtist, "wrap, grow, h 30%");
+        navigationPanel.add(btnArtist, "wrap, grow, h 25%");
         navigationPanel.add(btnAddFile, "wrap, grow, h 5%");
         navigationPanel.add(btnAddFolder, "wrap, grow, h 5%");
+        navigationPanel.add(btnEditFile, "wrap, grow, h 5%");
 
         btnSongs.addActionListener(new ActionListener() {
             @Override
@@ -79,6 +81,13 @@ public class MainDashboardForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btnAddFileActionPerformed(e);
+            }
+        });
+        
+        btnAlbums.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnEditFileActionPerformed(e);
             }
         });
 
@@ -134,6 +143,12 @@ public class MainDashboardForm extends JFrame {
 
     private void btnAddFolderActionPerformed(ActionEvent e) {
         songImporterDialog.importFolder();
+    }
+    
+    private void btnEditFileActionPerformed(ActionEvent e) {
+         //TODO : funguje to iba ak po vybrati a stlaceni sa klikne na iny button, zatial neviem preco
+        SongEditForm sef = new SongEditForm(this, panSongs.getSong());
+        sef.setVisible(true);
     }
     
     public void refresh() {
