@@ -1,7 +1,11 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -12,14 +16,20 @@ import sk.upjs.ics.paz1c.mp3library.Artist;
 
 class ArtistPaneListCellRenderer implements ListCellRenderer<Artist> {
 
+    private int width = 50;
     //private ImageCoverService imageCoverService = BeanFactory.INSTANCE.imageCoverService();
     private DefaultListCellRenderer delegate = new DefaultListCellRenderer();
 
     private Icon getIcon(Artist artist) {
         //ImageIcon imageCover = imageCoverService.getImageCover(book);
         //if (imageCover == null) {
-            URL bookIconUrl = ArtistPaneListCellRenderer.class.getResource("book-icon.png");
-            return new ImageIcon(bookIconUrl);
+        try {
+            BufferedImage image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource("defaultAlbum.png"));
+            return new ImageIcon(image.getScaledInstance(width, width, Image.SCALE_DEFAULT));
+        } catch (IOException e) {
+
+        }
+        return null;
         //}
         //return imageCover;
     }

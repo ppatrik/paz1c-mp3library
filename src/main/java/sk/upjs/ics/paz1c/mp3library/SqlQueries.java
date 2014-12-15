@@ -45,7 +45,7 @@ class SqlQueries {
         public static String INSERT
                 = "INSERT INTO albums VALUES((SELECT IFNULL(MAX(album_id), 0) FROM albums)+1, :name, :tracks, :discs);";
         public static String FIND_ALL
-                = "SELECT * FROM albums";
+                = "SELECT * FROM albums ORDER BY lower(name)";
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM albums WHERE album_id = ?";
         public static String FIND_ONE_BY_NAME
@@ -61,7 +61,7 @@ class SqlQueries {
         public static String INSERT
                 = "INSERT INTO artists VALUES((SELECT IFNULL(MAX(artist_id), 0) FROM artists)+1, :name, :wiki);";
         public static String FIND_ALL
-                = "SELECT * FROM artists";
+                = "SELECT * FROM artists ORDER BY lower(name)";
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM artists WHERE artist_id = ?";
         public static String FIND_ONE_BY_NAME
@@ -77,7 +77,7 @@ class SqlQueries {
         public static String INSERT
                 = "INSERT INTO genres  VALUES((SELECT IFNULL(MAX(genre_id), 0) FROM genres)+1, :name);";
         public static String FIND_ALL
-                = "SELECT * FROM genres";
+                = "SELECT * FROM genres ORDER BY lower(name)";
         public static String FIND_ONE_BY_ID
                 = "SELECT * FROM genres WHERE genre_id = ?";
         public static String FIND_ONE_BY_NAME

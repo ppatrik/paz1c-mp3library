@@ -4,16 +4,18 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.basic.BasicLookAndFeel;
 import sk.upjs.ics.paz1c.mp3library.gui.GuiFactory;
 import sk.upjs.ics.paz1c.mp3library.gui.MainDashboardForm;
 
 public class Starter {
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
+        Logger.getLogger("org.jaudiotagger").setLevel(Level.OFF); 
         try {
             UIManager.setLookAndFeel(new WindowsLookAndFeel());
         } catch(Exception e) {

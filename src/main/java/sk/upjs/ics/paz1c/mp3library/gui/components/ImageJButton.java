@@ -6,21 +6,12 @@
 package sk.upjs.ics.paz1c.mp3library.gui.components;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.metal.MetalButtonUI;
 
 public class ImageJButton extends JButton {
 
@@ -67,6 +58,6 @@ public class ImageJButton extends JButton {
         int x = (getWidth() - width) / 2;
         int y = (getHeight() - width) / 2;
 
-        g.drawImage(image.getScaledInstance(width, width, Image.SCALE_DEFAULT), x, y, null);
+        g.drawImage(image.getScaledInstance(width, width, Image.SCALE_SMOOTH), x, y, null);
     }
 }
