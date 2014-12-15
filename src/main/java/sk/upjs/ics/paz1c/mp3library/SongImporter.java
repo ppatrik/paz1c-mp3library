@@ -106,8 +106,8 @@ public class SongImporter {
             newSong.setArtist(novyArtist);
 
             Album novyAlbum = new Album();
-            novyAlbum.setTracs(parseInt(tag.getFirst(FieldKey.TRACK_TOTAL)));
-            novyAlbum.setTracs(parseInt(tag.getFirst(FieldKey.DISC_TOTAL)));
+            novyAlbum.setTracks(parseInt(tag.getFirst(FieldKey.TRACK_TOTAL)));
+            novyAlbum.setTracks(parseInt(tag.getFirst(FieldKey.DISC_TOTAL)));
             novyAlbum.setName(tag.getFirst(FieldKey.ALBUM));
             newSong.setAlbum(novyAlbum);
 

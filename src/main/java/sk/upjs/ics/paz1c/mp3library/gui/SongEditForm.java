@@ -3,15 +3,19 @@ package sk.upjs.ics.paz1c.mp3library.gui;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.paz1c.mp3library.Album;
 import sk.upjs.ics.paz1c.mp3library.Artist;
@@ -39,12 +43,12 @@ public class SongEditForm extends JDialog {
     private final JButton btnArtistAdd = new JButton("+");
     private final JComboBox cmbAlbum = new JComboBox();
     private final JButton btnAlbumAdd = new JButton("+");
-    private final JTextField txtYear = new JTextField();
-    private final JSpinner spTrack = new JSpinner();
-    private final JSpinner spDisc = new JSpinner();
+    private final JFormattedTextField txtYear = new JFormattedTextField(createYearFormatter());
+    private final JFormattedTextField txtTrack = new JFormattedTextField(NumberFormat.getNumberInstance());
+    private final JFormattedTextField txtDisc = new JFormattedTextField(NumberFormat.getNumberInstance());
     private final JComboBox cmbGenre = new JComboBox();
     private final JButton btnGenreAdd = new JButton("+");
-    private final JSpinner spRating = new JSpinner();
+    private final JFormattedTextField txtRating = new JFormattedTextField(NumberFormat.getNumberInstance());
     private final JTextField txtFile_path = new JTextField();
     private final JTextField txtCover = new JTextField();
     private final JTextField txtQuality = new JTextField();
@@ -56,7 +60,7 @@ public class SongEditForm extends JDialog {
     private final ArtistListCellRenderer artistListCellRenderer = new ArtistListCellRenderer();
     private final AlbumListCellRenderer albumListCellRenderer = new AlbumListCellRenderer();
     private final GenreListCellRenderer genreListCellRenderer = new GenreListCellRenderer();
-    
+
     private Song song;
 
     public SongEditForm(Frame owner) {
@@ -96,7 +100,7 @@ public class SongEditForm extends JDialog {
         add(lblAlbum);
         refreshCmbAlbumModel();
         cmbAlbum.setRenderer(albumListCellRenderer);
-        if (song.getAlbum()!= null) {
+        if (song.getAlbum() != null) {
             cmbAlbum.setSelectedItem(song.getAlbum());
         }
         add(cmbAlbum);
@@ -112,17 +116,23 @@ public class SongEditForm extends JDialog {
         /* -- Year - */
         add(lblYear);
         add(txtYear, "span 2");
-        txtYear.setText(Integer.toString(song.getYear()));
+        if (song.getYear() != null) {
+            txtYear.setText(song.getYear().toString());
+        }
 
         /* -- Track - */
         add(lblTrack);
-        add(spTrack, "span 2");
-        spTrack.setValue(song.getTrack());
+        add(txtTrack, "span 2");
+        if (song.getTrack() != null) {
+            txtTrack.setText(song.getTrack().toString());
+        }
 
         /* -- Disc - */
         add(lblDisc);
-        add(spDisc, "span 2");
-        spDisc.setValue(song.getDisc());
+        add(txtDisc, "span 2");
+        if (song.getDisc() != null) {
+            txtDisc.setText(song.getDisc().toString());
+        }
 
         /* -- Genre - */
         add(lblGenre);
@@ -143,8 +153,10 @@ public class SongEditForm extends JDialog {
 
         /* -- Rating - */
         add(lblRating);
-        add(spRating, "span 2");
-        spRating.setValue(song.getRating());
+        add(txtRating, "span 2");
+        if (song.getRating() != null) {
+            txtRating.setText(song.getRating().toString());
+        }
 
         /* -- File_path - */
         add(lblFile_path);
@@ -197,14 +209,14 @@ public class SongEditForm extends JDialog {
         setLocationRelativeTo(null);
     }
 
-    /*private JFormattedTextField.AbstractFormatter createYearFormatter() {
+    private JFormattedTextField.AbstractFormatter createYearFormatter() {
         try {
             return new MaskFormatter("####");
         } catch (ParseException e) {
             // should not happen
             throw new IllegalStateException("Illegal syntax for year formatter");
         }
-    }*/
+    }
 
     private ComboBoxModel getArtistComboBoxModel() {
         List<Artist> artists = BeanFactory.INSTANCE.artistDao().findAll();
@@ -222,18 +234,39 @@ public class SongEditForm extends JDialog {
     }
 
     private void btnArtistAddActionPerformed(ActionEvent e) {
-        // TODO: pridanie noveho formatu
-        refreshCmbArtistModel();
+        ArtistEditForm artistEditForm = new ArtistEditForm(GuiFactory.INSTANCE.mainDashboardForm());
+        artistEditForm.setRefresh(new Runnable() {
+
+            @Override
+            public void run() {
+                refreshCmbArtistModel();
+            }
+        });
+        artistEditForm.setVisible(true);
     }
 
     private void btnAlbumAddActionPerformed(ActionEvent e) {
-        // TODO: pridanie noveho formatu
-        refreshCmbAlbumModel();
+        AlbumEditForm albumEditForm = new AlbumEditForm(GuiFactory.INSTANCE.mainDashboardForm());
+        albumEditForm.setRefresh(new Runnable() {
+
+            @Override
+            public void run() {
+                refreshCmbAlbumModel();
+            }
+        });
+        albumEditForm.setVisible(true);
     }
 
     private void btnGenreAddActionPerformed(ActionEvent e) {
-        // TODO: pridanie noveho formatu
-        refreshCmbGenreModel();
+        GenreEditForm genreEditForm = new GenreEditForm(GuiFactory.INSTANCE.mainDashboardForm());
+        genreEditForm.setRefresh(new Runnable() {
+
+            @Override
+            public void run() {
+                refreshCmbGenreModel();
+            }
+        });
+        genreEditForm.setVisible(true);
     }
 
     private void refreshCmbArtistModel() {
@@ -252,16 +285,32 @@ public class SongEditForm extends JDialog {
         song.setTitle(txtTitle.getText());
         song.setArtist((Artist) cmbArtist.getSelectedItem());
         song.setAlbum((Album) cmbAlbum.getSelectedItem());
-        song.setYear(Integer.valueOf(txtYear.getText()));
-        song.setTrack((Integer) spTrack.getValue());
-        song.setDisc((Integer) spDisc.getValue());
+        try {
+            song.setYear(Integer.parseInt(txtYear.getText()));
+        } catch (NumberFormatException ex) {
+            song.setYear(null);
+        }
+        try {
+            song.setTrack(Integer.parseInt(txtTrack.getText()));
+        } catch (NumberFormatException ex) {
+            song.setTrack(null);
+        }
+        try {
+            song.setDisc(Integer.parseInt(txtDisc.getText()));
+        } catch (NumberFormatException ex) {
+            song.setDisc(null);
+        }
         song.setGenre((Genre) cmbGenre.getSelectedItem());
-        song.setRating((Integer) spRating.getValue());
+        try {
+            song.setRating(Integer.parseInt(txtRating.getText()));
+        } catch (NumberFormatException ex) {
+            song.setRating(null);
+        }
         // TODO: cover
 
         BeanFactory.INSTANCE.songDao().saveOrUpdate(song);
         GuiFactory.INSTANCE.mainDashboardForm().refresh();
-                
+
         setVisible(false);
     }
 

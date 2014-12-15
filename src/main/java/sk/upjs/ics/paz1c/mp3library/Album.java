@@ -8,7 +8,7 @@ public class Album {
 
     private Long id;
     private String name;
-    private Integer tracs;
+    private Integer tracks;
     private Integer discs;
 
     public Long getId() {
@@ -27,12 +27,12 @@ public class Album {
         this.name = name;
     }
 
-    public Integer getTracs() {
-        return tracs;
+    public Integer getTracks() {
+        return tracks;
     }
 
-    public void setTracs(Integer tracs) {
-        this.tracs = tracs;
+    public void setTracks(Integer tracks) {
+        this.tracks = tracks;
     }
 
     public Integer getDiscs() {
@@ -66,7 +66,7 @@ public class Album {
         int hash = 5;
         hash = 59 * hash + Objects.hashCode(this.id);
         hash = 59 * hash + Objects.hashCode(this.name);
-        hash = 59 * hash + Objects.hashCode(this.tracs);
+        hash = 59 * hash + Objects.hashCode(this.tracks);
         hash = 59 * hash + Objects.hashCode(this.discs);
         return hash;
     }

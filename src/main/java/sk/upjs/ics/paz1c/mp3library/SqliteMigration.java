@@ -49,7 +49,7 @@ public class SqliteMigration {
                     + "("
                     + "album_id             int PRIMARY KEY ,"
                     + "name                 longtext,"
-                    + "tracs                int,"
+                    + "tracks               int,"
                     + "discs                int"
                     + ");");
 

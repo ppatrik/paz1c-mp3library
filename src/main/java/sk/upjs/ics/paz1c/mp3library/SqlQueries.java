@@ -41,9 +41,9 @@ class SqlQueries {
         public static String DELETE
                 = "DELETE FROM albums WHERE album_id = ?";
         public static String UPDATE
-                = "UPDATE albums SET name = :name, tracs = :tracs, discs = :discs WHERE album_id = :album_id";
+                = "UPDATE albums SET name = :name, tracks = :tracks, discs = :discs WHERE album_id = :album_id";
         public static String INSERT
-                = "INSERT INTO albums VALUES((SELECT IFNULL(MAX(album_id), 0) FROM albums)+1, :name, :tracs, :discs);";
+                = "INSERT INTO albums VALUES((SELECT IFNULL(MAX(album_id), 0) FROM albums)+1, :name, :tracks, :discs);";
         public static String FIND_ALL
                 = "SELECT * FROM albums";
         public static String FIND_ONE_BY_ID

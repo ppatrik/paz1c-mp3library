@@ -22,7 +22,7 @@ import sk.upjs.ics.paz1c.mp3library.SongDao;
  *
  * @author patrik
  */
-public class TablePopupMenu extends JPopupMenu {
+public class SongPopupMenu extends JPopupMenu {
 
     SongDao songDao = BeanFactory.INSTANCE.songDao();
 
@@ -47,10 +47,8 @@ public class TablePopupMenu extends JPopupMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (song != null) {
-                    
-                    SongEditForm bookEditForm = new SongEditForm(opener, song);
-                    bookEditForm.setVisible(true);
-                    //refreshBookData();
+                    SongEditForm songEditForm = new SongEditForm(opener, song);
+                    songEditForm.setVisible(true);
                 }
             }
         });
@@ -68,7 +66,6 @@ public class TablePopupMenu extends JPopupMenu {
                         songDao.delete(song);
                     }
                 }
-                //refreshSongData();
             }
         });
         add(deleteItem);

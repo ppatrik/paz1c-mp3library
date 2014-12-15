@@ -30,7 +30,7 @@ class SqliteAlbumDao implements AlbumDao {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("album_id", album.getId());
         dataMap.put("name", album.getName());
-        dataMap.put("tracs", album.getTracs());
+        dataMap.put("tracks", album.getTracks());
         dataMap.put("discs", album.getDiscs());
 
         if (album.getId() == null) {
@@ -55,9 +55,11 @@ class SqliteAlbumDao implements AlbumDao {
     public void delete(Album album) {
         SongDao songDao = BeanFactory.INSTANCE.songDao();
         List<Song> songs = songDao.findAllByAlbum(album);
-        if (songs.isEmpty()) {
-            jdbcTemplate.update(SqlQueries.Album.DELETE, album.getId());
+        for (Song song : songs) {
+            BeanFactory.INSTANCE.songDao().delete(song);
         }
+        jdbcTemplate.update(SqlQueries.Album.DELETE, album.getId());
+
     }
 
     @Override

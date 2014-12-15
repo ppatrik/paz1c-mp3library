@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import sk.upjs.ics.paz1c.mp3library.Song;
 
-public class TableClickListener implements MouseListener {
+public class SongClickListener implements MouseListener {
 
     private Song getInfo(MouseEvent e) {
         JTable source = (JTable) e.getSource();
@@ -33,7 +33,7 @@ public class TableClickListener implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         if (e.isPopupTrigger()) {
             Song song = getInfo(e);
-            TablePopupMenu popupMenu = new TablePopupMenu();
+            SongPopupMenu popupMenu = new SongPopupMenu();
             popupMenu.generate(song, e.getComponent(), GuiFactory.INSTANCE.mainDashboardForm());
 
             popupMenu.show(e.getComponent(), e.getX(), e.getY());

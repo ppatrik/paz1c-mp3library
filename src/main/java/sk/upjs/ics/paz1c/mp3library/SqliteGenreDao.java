@@ -53,9 +53,10 @@ class SqliteGenreDao implements GenreDao {
     public void delete(Genre genre) {
         SongDao songDao = BeanFactory.INSTANCE.songDao();
         List<Song> songs = songDao.findAllByGenre(genre);
-        if (songs.isEmpty()) {
-            jdbcTemplate.update(SqlQueries.Genre.DELETE, genre.getId());
+        for (Song song : songs) {
+            BeanFactory.INSTANCE.songDao().delete(song);
         }
+        jdbcTemplate.update(SqlQueries.Genre.DELETE, genre.getId());
     }
 
     @Override

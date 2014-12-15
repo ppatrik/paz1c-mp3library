@@ -20,7 +20,7 @@ class SongsPanel extends JPanel implements PanelInterface {
         tblSongs.setAutoCreateRowSorter(true);
         tblSongs.setDragEnabled(false);
         tblSongs.getTableHeader().setReorderingAllowed(false);
-        tblSongs.addMouseListener(new TableClickListener());
+        tblSongs.addMouseListener(new SongClickListener());
 
         refresh();
         

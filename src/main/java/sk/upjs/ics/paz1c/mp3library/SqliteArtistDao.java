@@ -54,9 +54,10 @@ class SqliteArtistDao implements ArtistDao {
     public void delete(Artist artist) {
         SongDao songDao = BeanFactory.INSTANCE.songDao();
         List<Song> songs = songDao.findAllByArtist(artist);
-        if (songs.isEmpty()) {
-            jdbcTemplate.update(SqlQueries.Artist.DELETE, artist.getId());
+        for (Song song : songs) {
+            BeanFactory.INSTANCE.songDao().delete(song);
         }
+        jdbcTemplate.update(SqlQueries.Artist.DELETE, artist.getId());
     }
 
     @Override
