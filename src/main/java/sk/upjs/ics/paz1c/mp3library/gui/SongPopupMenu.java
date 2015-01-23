@@ -10,10 +10,8 @@ import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
+import javax.swing.*;
+
 import sk.upjs.ics.paz1c.mp3library.BeanFactory;
 import sk.upjs.ics.paz1c.mp3library.Song;
 import sk.upjs.ics.paz1c.mp3library.SongDao;
@@ -59,7 +57,7 @@ public class SongPopupMenu extends JPopupMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (song != null) {
-                    int result = DialogUtils.yesNoDialog(c,
+                    int result = DialogUtils.yesNoDialog(SwingUtilities.getWindowAncestor(c),
                             "Naozaj chcete zmazať? "
                             + song.getTitle());
                     if (result == JOptionPane.YES_OPTION) {

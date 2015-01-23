@@ -1,12 +1,12 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.paz1c.mp3library.gui.components.ImageJButton;
 
@@ -16,9 +16,9 @@ public class MainDashboardForm extends JFrame {
     private final AlbumsPanel panAlbums = GuiFactory.INSTANCE.albumsPanel();
     private final ArtistsPanel panArtists = GuiFactory.INSTANCE.artistsPanel();
     //private final GenresPanel panGenres = GuiFactory.INSTANCE.genresPanel();
-    
+
     private final SongImporterDialog songImporterDialog = GuiFactory.INSTANCE.songImporterDialog();
-    
+
     private final ImageJButton btnSongs = new ImageJButton("songs.png");
     private final ImageJButton btnAlbums = new ImageJButton("albums.png");
     private final ImageJButton btnArtist = new ImageJButton("artists.png");
@@ -34,15 +34,35 @@ public class MainDashboardForm extends JFrame {
 
         panNavigation = createNavigationPanel();
         add(panNavigation, BorderLayout.WEST);
-        
+
         panDashboard = new JPanel(new BorderLayout());
         add(panDashboard, BorderLayout.CENTER);
 
-        setLocationByPlatform(true);
+        //setLocationByPlatform(false);
         setPreferredSize(new Dimension(800, 600));
-        
+        setSize(800, 600);
+
         // Otvorenie prveho panelu
         btnSongsActionPerformed(null);
+    }
+
+    public void setSize(int width, int height) {
+        super.setSize(width, height);
+
+        //Get the screen size
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+
+        //Calculate the frame location
+        int x = (screenSize.width - getWidth()) / 2;
+        int y = (screenSize.height - getHeight()) / 2;
+
+        //Set the new frame location
+        setLocation(x, y);
+    }
+
+    public void setSize(Dimension size) {
+        setSize(size.width, size.height);
     }
 
     private JPanel createNavigationPanel() {
@@ -86,7 +106,7 @@ public class MainDashboardForm extends JFrame {
     private void btnSongsActionPerformed(ActionEvent e) {
         panDashboard.removeAll();
         panDashboard.add(panSongs, BorderLayout.CENTER);
-        
+
         btnSongs.setChecked();
         btnArtist.setUnchecked();
         btnAlbums.setUnchecked();
@@ -102,7 +122,7 @@ public class MainDashboardForm extends JFrame {
         btnSongs.setUnchecked();
         btnArtist.setUnchecked();
         btnAlbums.setChecked();
-        
+
         pack();
         repaint();
     }
@@ -114,7 +134,7 @@ public class MainDashboardForm extends JFrame {
         btnSongs.setUnchecked();
         btnArtist.setChecked();
         btnAlbums.setUnchecked();
-        
+
         pack();
         repaint();
     }
@@ -122,8 +142,8 @@ public class MainDashboardForm extends JFrame {
     private void btnAddFolderActionPerformed(ActionEvent e) {
         songImporterDialog.importFolder();
     }
-    
-    
+
+
     public void refresh() {
         panSongs.refresh();
         panAlbums.refresh();
