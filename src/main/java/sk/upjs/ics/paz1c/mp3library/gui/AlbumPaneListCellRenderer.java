@@ -3,14 +3,6 @@ package sk.upjs.ics.paz1c.mp3library.gui;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
@@ -18,18 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.audio.mp3.MP3File;
-import org.jaudiotagger.tag.TagField;
-import org.jaudiotagger.tag.datatype.Artwork;
-import org.jaudiotagger.tag.datatype.DataTypes;
-import org.jaudiotagger.tag.id3.ID3v23Frame;
-import org.jaudiotagger.tag.id3.ID3v24Tag;
-import org.jaudiotagger.tag.id3.framebody.FrameBodyAPIC;
+
 import sk.upjs.ics.paz1c.mp3library.Album;
-import sk.upjs.ics.paz1c.mp3library.BeanFactory;
-import sk.upjs.ics.paz1c.mp3library.Song;
-import sk.upjs.ics.paz1c.mp3library.SongDao;
 
 /**
  *

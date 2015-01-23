@@ -11,7 +11,6 @@ import javax.swing.AbstractListModel;
 import sk.upjs.ics.paz1c.mp3library.Album;
 import sk.upjs.ics.paz1c.mp3library.AlbumDao;
 import sk.upjs.ics.paz1c.mp3library.BeanFactory;
-import sk.upjs.ics.paz1c.mp3library.Song;
 
 /**
  *

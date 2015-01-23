@@ -1,6 +1,5 @@
 package sk.upjs.ics.paz1c.mp3library;
 
-import java.io.File;
 import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;

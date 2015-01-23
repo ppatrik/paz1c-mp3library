@@ -1,18 +1,10 @@
 package sk.upjs.ics.paz1c.mp3library.dao;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+
 import org.springframework.jdbc.core.RowMapper;
-import sk.upjs.ics.paz1c.mp3library.AlbumDao;
-import sk.upjs.ics.paz1c.mp3library.ArtistDao;
-import sk.upjs.ics.paz1c.mp3library.BeanFactory;
-import sk.upjs.ics.paz1c.mp3library.GenreDao;
 import sk.upjs.ics.paz1c.mp3library.Song;
 
 public class SongRowMapper implements RowMapper<Song> {
