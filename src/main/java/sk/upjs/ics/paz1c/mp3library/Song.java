@@ -1,6 +1,7 @@
 package sk.upjs.ics.paz1c.mp3library;
 
 import java.io.File;
+import java.util.Objects;
 import javax.swing.ImageIcon;
 
 public class Song {
@@ -121,6 +122,57 @@ public class Song {
 
     public void setFormat(String format) {
         this.format = format;
+    }
+
+    public void performArtistExistsCheck() {
+        ArtistDao artistDao = BeanFactory.INSTANCE.artistDao();
+        Artist exists = artistDao.findByName(artist.getName());
+        if (exists != null) {
+            artist = exists;
+        }
+    }
+
+    public void performAlbumExistsCheck() {
+        AlbumDao albumDao = BeanFactory.INSTANCE.albumDao();
+        Album exists = albumDao.findByName(album.getName());
+        if (exists != null) {
+            album = exists;
+        }
+    }
+
+    public void performGenreExistsCheck() {
+        GenreDao genreDao = BeanFactory.INSTANCE.genreDao();
+        Genre exists = genreDao.findByName(genre.getName());
+        if (exists != null) {
+            genre = exists;
+        }
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + Objects.hashCode(this.id);
+        hash = 11 * hash + Objects.hashCode(this.title);
+        hash = 11 * hash + Objects.hashCode(this.artist);
+        hash = 11 * hash + Objects.hashCode(this.album);
+        hash = 11 * hash + Objects.hashCode(this.year);
+        hash = 11 * hash + Objects.hashCode(this.track);
+        hash = 11 * hash + Objects.hashCode(this.disc);
+        hash = 11 * hash + Objects.hashCode(this.genre);
+        hash = 11 * hash + Objects.hashCode(this.rating);
+        hash = 11 * hash + Objects.hashCode(this.file_path);
+        hash = 11 * hash + Objects.hashCode(this.cover);
+        hash = 11 * hash + Objects.hashCode(this.quality);
+        hash = 11 * hash + Objects.hashCode(this.format);
+        return hash;
     }
 
 }

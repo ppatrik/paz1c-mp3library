@@ -1,11 +1,14 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.util.Objects;
+
 public class Album {
 
+    private static final long NULL_ID = Long.MIN_VALUE;
+
     private Long id;
-    private Artist artist;
     private String name;
-    private Integer tracs;
+    private Integer tracks;
     private Integer discs;
 
     public Long getId() {
@@ -16,14 +19,6 @@ public class Album {
         this.id = id;
     }
 
-    public Artist getArtist() {
-        return artist;
-    }
-
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-    }
-
     public String getName() {
         return name;
     }
@@ -32,12 +27,12 @@ public class Album {
         this.name = name;
     }
 
-    public Integer getTracs() {
-        return tracs;
+    public Integer getTracks() {
+        return tracks;
     }
 
-    public void setTracs(Integer tracs) {
-        this.tracs = tracs;
+    public void setTracks(Integer tracks) {
+        this.tracks = tracks;
     }
 
     public Integer getDiscs() {
@@ -48,4 +43,36 @@ public class Album {
         this.discs = discs;
     }
 
+    public static Album getNull() {
+        Album album = new Album();
+        album.setId(NULL_ID);
+        return album;
+    }
+
+    public static boolean isNull(Album album) {
+        return NULL_ID == album.getId();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.tracks);
+        hash = 59 * hash + Objects.hashCode(this.discs);
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Album{" + "id=" + id + ", name=" + name + "}";
+    }
 }

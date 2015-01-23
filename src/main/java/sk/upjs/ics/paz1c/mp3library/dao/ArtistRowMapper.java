@@ -13,9 +13,9 @@ public class ArtistRowMapper implements RowMapper<Artist> {
     public Artist mapRow(ResultSet rs, int rowNum) throws SQLException {
         Artist artist = new Artist();
         artist.setId(rs.getLong("artist_id"));
-        artist.setName(rs.getString("name"));
+        artist.setName(rs.getString("artist_name"));
         try {
-            artist.setWiki(new URL(rs.getString("wiki")));
+            artist.setWiki(new URL(rs.getString("artist_wiki")));
         } catch (MalformedURLException ex) {
             artist.setWiki(null);
         }

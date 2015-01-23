@@ -2,6 +2,7 @@ package sk.upjs.ics.paz1c.mp3library.gui;
 
 import java.util.LinkedList;
 import java.util.List;
+import sk.upjs.ics.paz1c.mp3library.Album;
 import sk.upjs.ics.paz1c.mp3library.BeanFactory;
 import sk.upjs.ics.paz1c.mp3library.Song;
 import sk.upjs.ics.paz1c.mp3library.SongDao;
@@ -13,8 +14,8 @@ public class AlbumSongsTableModel extends SongsTableModel {
     protected static final int COLUMN_INDEX_TITLE = 1;
     protected static final int COLUMN_INDEX_TRACK = 0;
     protected static final int COLUMN_INDEX_ARTIST = 2;
-    protected static final int COLUMN_INDEX_ALBUM = 3;
-    protected static final int COLUMN_INDEX_GENRE = 6;
+    protected static final int COLUMN_INDEX_ALBUM = 6;
+    protected static final int COLUMN_INDEX_GENRE = 3;
     protected static final int COLUMN_INDEX_DISC = 4;
     protected static final int COLUMN_INDEX_YEAR = 5;
 
@@ -23,10 +24,12 @@ public class AlbumSongsTableModel extends SongsTableModel {
     private final SongDao songDao = BeanFactory.INSTANCE.songDao();
 
     private final List<Song> songs = new LinkedList<Song>();
+    
+    private Album album = null;
 
     @Override
     public int getRowCount() {
-        return songs.size() * 100;
+        return songs.size();
     }
 
     @Override
@@ -36,8 +39,10 @@ public class AlbumSongsTableModel extends SongsTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Song song = songs.get(0); //rowIndex);
+        Song song = songs.get(rowIndex);
         switch (columnIndex) {
+            case -1:
+                return song;
             case COLUMN_INDEX_TITLE:
                 return song.getTitle();
             case COLUMN_INDEX_ARTIST:
@@ -70,20 +75,29 @@ public class AlbumSongsTableModel extends SongsTableModel {
         return COLUMN_NAMES[column];
     }
 
+    @Override
     public Song getValueAt(int rowIndex) {
         return songs.get(rowIndex);
     }
 
+    @Override
     public void remove(int rowIndex) {
         // TODO: otazka ci naozaj zmazat
         songDao.delete(getValueAt(rowIndex));
         refresh();
     }
 
+    @Override
     public void refresh() {
         songs.clear();
-        songs.addAll(songDao.findAll());
+        if(album!=null) {
+            songs.addAll(songDao.findAllByAlbum(album));
+        }
 
         fireTableDataChanged();
+    }
+
+    void setAlbum(Album album) {
+        this.album = album;
     }
 }

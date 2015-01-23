@@ -9,6 +9,8 @@ public interface ArtistDao {
     public void delete(Artist artist);
 
     public Artist findById(Long id);
+    
+    public Artist findByName(String name);
 
     public List<Artist> findAll();
 

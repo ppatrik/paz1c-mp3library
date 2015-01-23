@@ -1,8 +1,10 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -29,34 +31,67 @@ class SqliteSongDao implements SongDao {
     }
 
     @Override
-    public void saveOrUpdate(Song book) {
-        if (book.getId() == null) {
-            insert(book);
+    public void saveOrUpdate(Song song) {
+        if (song == null) {
+            return;
+        }
+
+        song.performArtistExistsCheck();
+        song.performAlbumExistsCheck();
+        song.performGenreExistsCheck();
+
+        BeanFactory.INSTANCE.artistDao().saveOrUpdate(song.getArtist());
+        BeanFactory.INSTANCE.albumDao().saveOrUpdate(song.getAlbum());
+        BeanFactory.INSTANCE.genreDao().saveOrUpdate(song.getGenre());
+
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("song_id", song.getId());
+        dataMap.put("title", song.getTitle());
+        if (song.getArtist() != null) {
+            dataMap.put("artist_id", song.getArtist().getId());
         } else {
-            update(book);
+            dataMap.put("artist_id", null);
+        }
+        if (song.getAlbum() != null) {
+            dataMap.put("album_id", song.getAlbum().getId());
+        } else {
+            dataMap.put("album_id", null);
+        }
+        dataMap.put("year", song.getYear());
+        dataMap.put("track", song.getTrack());
+        dataMap.put("disc", song.getDisc());
+        if (song.getGenre() != null) {
+            dataMap.put("genre_id", song.getGenre().getId());
+        } else {
+            dataMap.put("genre_id", null);
+        }
+        dataMap.put("rating", song.getRating());
+        if (song.getFile_path() != null) {
+            dataMap.put("file_path", song.getFile_path().getAbsolutePath());
+        } else {
+            dataMap.put("file_path", null);
+        }
+        dataMap.put("cover", song.getCover());
+        dataMap.put("quality", song.getQuality());
+        dataMap.put("format", song.getFormat());
+
+        if (song.getId() == null) {
+            insert(song, dataMap);
+        } else {
+            update(song, dataMap);
         }
     }
 
-    private void insert(Song book) {
-        Map<String, Object> insertMap = new HashMap<String, Object>();
-        insertMap.put("id", book.getId());
-        insertMap.put("title", book.getTitle());
-        insertMap.put("path", "file://null");
-        insertMap.put("year", book.getYear());
+    private void insert(Song song, Map<String, Object> insertMap) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(SqlQueries.Song.INSERT, new MapSqlParameterSource(insertMap), keyHolder);
         Long id = keyHolder.getKey().longValue();
-        book.setId(id);
+        song.setId(id);
 
     }
 
-    private void update(Song book) {
-        Map<String, Object> updateMap = new HashMap<String, Object>();
-        updateMap.put("id", book.getId());
-        updateMap.put("title", book.getTitle());
-        updateMap.put("year", book.getYear());
-
+    private void update(Song song, Map<String, Object> updateMap) {
         namedParameterJdbcTemplate.update(SqlQueries.Song.UPDATE, updateMap);
     }
 
@@ -67,7 +102,11 @@ class SqliteSongDao implements SongDao {
 
     @Override
     public Song findById(Long id) {
-        return jdbcTemplate.queryForObject(SqlQueries.Song.FIND_ONE_BY_ID, songRowMapper, id);
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Song.FIND_ONE_BY_ID, songRowMapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -76,36 +115,32 @@ class SqliteSongDao implements SongDao {
     }
 
     @Override
-    public List<Song> findByTitle(String title) {
+    public List<Song> findAllByTitle(String title) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_TITLE, songRowMapper, title);
     }
 
     @Override
-    public List<Song> findByArtist(Artist artist) {
+    public List<Song> findAllByArtist(Artist artist) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_ARTIST, songRowMapper, artist.getId());
     }
 
     @Override
-    public List<Song> findByAlbum(Album album) {
+    public List<Song> findAllByAlbum(Album album) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_ALBUM, songRowMapper, album.getId());
     }
 
     @Override
-    public List<Song> findByAlbumArtist(Artist albumArtist) {
-        return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_ALBUM_ARTIST, songRowMapper, albumArtist.getId());
-    }
-
-    @Override
-    public List<Song> findByGenre(Genre genre) {
+    public List<Song> findAllByGenre(Genre genre) {
         return jdbcTemplate.query(SqlQueries.Song.FIND_ALL_BY_GENRE, songRowMapper, genre.getId());
     }
+
     @Override
     public Song findByFilePath(File file_path) {
-        if (jdbcTemplate.query(SqlQueries.Song.FIND_ONE_BY_FILE_PATH, songRowMapper).isEmpty()){
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Song.FIND_ONE_BY_FILE_PATH, songRowMapper, file_path);
+        } catch (EmptyResultDataAccessException e) {
             return null;
         }
-        return jdbcTemplate.query(SqlQueries.Song.FIND_ONE_BY_FILE_PATH, songRowMapper).get(0);
     }
-
 
 }

@@ -1,31 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.upjs.ics.paz1c.mp3library.gui;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
-/**
- *
- * @author patrik
- */
-class SongsPanel extends JPanel {
+class SongsPanel extends JPanel implements PanelInterface {
 
     private final SongsTableModel songsTableModel = new SongsTableModel();
-    private final JTable songsTable = new JTable();
-    private final JScrollPane scrollPane = new JScrollPane(songsTable);
-    
+    private final JTable tblSongs = new JTable();
+    private final JScrollPane scrollPane = new JScrollPane(tblSongs);
+
     public SongsPanel() {
         super(new BorderLayout());
-        songsTableModel.refresh();
-        songsTable.setModel(songsTableModel);
-        
+
+        tblSongs.setModel(songsTableModel);
+        tblSongs.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tblSongs.setAutoCreateRowSorter(true);
+        tblSongs.setDragEnabled(false);
+        tblSongs.getTableHeader().setReorderingAllowed(false);
+        tblSongs.addMouseListener(new SongClickListener());
+
+        refresh();
+
         add(scrollPane, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void refresh() {
+        songsTableModel.refresh();
     }
 
 }

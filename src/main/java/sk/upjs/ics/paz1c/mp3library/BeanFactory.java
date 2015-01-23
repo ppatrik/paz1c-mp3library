@@ -1,6 +1,9 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Properties;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.sqlite.SQLiteDataSource;
@@ -28,14 +31,14 @@ public enum BeanFactory {
         }
         return this.albumDao;
     }
-    
+
     public ArtistDao artistDao() {
         if (this.artistDao == null) {
             this.artistDao = new SqliteArtistDao(jdbcTemplate());
         }
         return this.artistDao;
     }
-    
+
     public GenreDao genreDao() {
         if (this.genreDao == null) {
             this.genreDao = new SqliteGenreDao(jdbcTemplate());
@@ -45,7 +48,12 @@ public enum BeanFactory {
 
     private DataSource dataSource() {
         SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl("jdbc:sqlite:mp3library.db");
+        
+        if ("true".equals(System.getProperty("junit"))) {
+            dataSource.setUrl("jdbc:sqlite:mp3library-test.db");
+        } else {
+            dataSource.setUrl("jdbc:sqlite:mp3library.db");
+        }
 
         return dataSource;
     }
@@ -62,7 +70,16 @@ public enum BeanFactory {
         try {
             new SqliteMigration(jdbcTemplate).migrate();
         } catch (SQLException ex) {
-            System.out.println("Zavazny databazovy problem, pri inicializacii nebola dostupna");
+            System.err.println("Zavazny databazovy problem, pri inicializacii nebola dostupna");
         }
+
+    }
+
+    private Properties getProperties() throws IOException {
+        InputStream config = BeanFactory.class.getResourceAsStream("config.properties");
+        Properties properties = new Properties();
+        properties.load(config);
+
+        return properties;
     }
 }

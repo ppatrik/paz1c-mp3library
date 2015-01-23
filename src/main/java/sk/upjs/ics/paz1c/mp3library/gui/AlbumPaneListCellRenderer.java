@@ -1,30 +1,17 @@
-/*
- * Copyright 2014 patrik.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package sk.upjs.ics.paz1c.mp3library.gui;
 
 import java.awt.Component;
-import java.net.URL;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
 import sk.upjs.ics.paz1c.mp3library.Album;
-import sk.upjs.ics.paz1c.mp3library.BeanFactory;
 
 /**
  *
@@ -32,16 +19,41 @@ import sk.upjs.ics.paz1c.mp3library.BeanFactory;
  */
 class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
 
+    private int width = 50;
     //private ImageCoverService imageCoverService = BeanFactory.INSTANCE.imageCoverService();
     private DefaultListCellRenderer delegate = new DefaultListCellRenderer();
 
     private Icon getIcon(Album album) {
         //ImageIcon imageCover = imageCoverService.getImageCover(book);
-        //if (imageCover == null) {
-            URL bookIconUrl = AlbumPaneListCellRenderer.class.getResource("book-icon.png");
-            return new ImageIcon(bookIconUrl);
-        //}
-        //return imageCover;
+        BufferedImage image = null;
+
+        /*try {
+            SongDao songDao = BeanFactory.INSTANCE.songDao();
+            List<Song> song = songDao.findAllByAlbum(album);
+            for (Song s : song) {
+                System.err.println(s.getFile_path().getAbsoluteFile());
+                MP3File f = (MP3File) AudioFileIO.read(s.getFile_path());
+                ID3v24Tag tag = f.getID3v2TagAsv24();
+
+                TagField coverArtField
+                        = tag.getFirstField(org.jaudiotagger.tag.id3.ID3v23FieldKey.COVER_ART.getFieldName());
+
+                FrameBodyAPIC body = (FrameBodyAPIC) ((ID3v23Frame) coverArtField).getBody();
+                byte[] imageRawData = (byte[]) body.getObjectValue(DataTypes.OBJ_PICTURE_DATA);
+                image = ImageIO.read(ImageIO.createImageInputStream(new ByteArrayInputStream(imageRawData)));
+            }
+        } catch (Exception e) {
+
+        }*/
+        if (image == null) {
+            try {
+                image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource("defaultAlbum.png"));
+            } catch (Exception ex) {
+                return null;
+            }
+        }
+        return new ImageIcon(image.getScaledInstance(width, width, Image.SCALE_DEFAULT));
+
     }
 
     @Override

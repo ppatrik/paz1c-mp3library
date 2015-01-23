@@ -9,6 +9,8 @@ public interface GenreDao {
     public void delete(Genre genre);
 
     public Genre findById(Long id);
+    
+    public Genre findByName(String name);
 
     public List<Genre> findAll();
 

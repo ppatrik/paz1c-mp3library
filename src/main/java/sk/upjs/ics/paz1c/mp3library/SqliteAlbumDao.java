@@ -1,9 +1,15 @@
 package sk.upjs.ics.paz1c.mp3library;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import sk.upjs.ics.paz1c.mp3library.dao.AlbumRowMapper;
 
 class SqliteAlbumDao implements AlbumDao {
@@ -14,10 +20,6 @@ class SqliteAlbumDao implements AlbumDao {
 
     private final RowMapper<Album> albumRowMapper = new AlbumRowMapper();
 
-    public SqliteAlbumDao() {
-        // empty constructor
-    }
-
     public SqliteAlbumDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(this.jdbcTemplate);
@@ -25,44 +27,57 @@ class SqliteAlbumDao implements AlbumDao {
 
     @Override
     public void saveOrUpdate(Album album) {
-        /*if (book.getId() == null) {
-         insert(book);
-         } else {
-         update(book);
-         }*/
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("album_id", album.getId());
+        dataMap.put("name", album.getName());
+        dataMap.put("tracks", album.getTracks());
+        dataMap.put("discs", album.getDiscs());
+
+        if (album.getId() == null) {
+            insert(album, dataMap);
+        } else {
+            update(album, dataMap);
+        }
     }
 
-    private void insert(Album album) {
-        /*Map<String, Object> insertMap = new HashMap<String, Object>();
-         insertMap.put("id", book.getId());
-         insertMap.put("title", book.getTitle());
-         insertMap.put("path", "file://null");
-         insertMap.put("year", book.getYear());
-
-         KeyHolder keyHolder = new GeneratedKeyHolder();
-         namedParameterJdbcTemplate.update(SqlQueries.Song.INSERT, new MapSqlParameterSource(insertMap), keyHolder);
-         Long id = keyHolder.getKey().longValue();
-         book.setId(id);*/
+    private void insert(Album album, Map<String, Object> insertMap) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(SqlQueries.Album.INSERT, new MapSqlParameterSource(insertMap), keyHolder);
+        Long id = keyHolder.getKey().longValue();
+        album.setId(id);
     }
 
-    private void update(Album album) {
-        /*Map<String, Object> updateMap = new HashMap<String, Object>();
-         updateMap.put("id", book.getId());
-         updateMap.put("title", book.getTitle());
-         updateMap.put("year", book.getYear());
-
-         namedParameterJdbcTemplate.update(SqlQueries.Song.UPDATE, updateMap);*/
+    private void update(Album album, Map<String, Object> updateMap) {
+        namedParameterJdbcTemplate.update(SqlQueries.Album.UPDATE, updateMap);
     }
 
     @Override
     public void delete(Album album) {
-        // TODO: overenie ci naozaj neexistuju piesne daneho albumu
-        //jdbcTemplate.update(SqlQueries.Song.DELETE, song.getId());
+        SongDao songDao = BeanFactory.INSTANCE.songDao();
+        List<Song> songs = songDao.findAllByAlbum(album);
+        for (Song song : songs) {
+            BeanFactory.INSTANCE.songDao().delete(song);
+        }
+        jdbcTemplate.update(SqlQueries.Album.DELETE, album.getId());
+
     }
 
     @Override
     public Album findById(Long id) {
-        return jdbcTemplate.queryForObject(SqlQueries.Album.FIND_ONE_BY_ID, albumRowMapper, id);
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Album.FIND_ONE_BY_ID, albumRowMapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Album findByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(SqlQueries.Album.FIND_ONE_BY_NAME, albumRowMapper, name);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
