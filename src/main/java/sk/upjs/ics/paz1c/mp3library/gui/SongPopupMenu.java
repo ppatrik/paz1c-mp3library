@@ -64,6 +64,7 @@ public class SongPopupMenu extends JPopupMenu {
                             + song.getTitle());
                     if (result == JOptionPane.YES_OPTION) {
                         songDao.delete(song);
+                        GuiFactory.INSTANCE.mainDashboardForm().refresh();
                     }
                 }
             }

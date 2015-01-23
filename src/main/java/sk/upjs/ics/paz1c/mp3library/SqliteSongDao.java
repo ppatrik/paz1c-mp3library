@@ -91,7 +91,7 @@ class SqliteSongDao implements SongDao {
 
     }
 
-    private void update(Song book, Map<String, Object> updateMap) {
+    private void update(Song song, Map<String, Object> updateMap) {
         namedParameterJdbcTemplate.update(SqlQueries.Song.UPDATE, updateMap);
     }
 
