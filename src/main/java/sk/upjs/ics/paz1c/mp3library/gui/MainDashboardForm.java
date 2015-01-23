@@ -23,7 +23,6 @@ public class MainDashboardForm extends JFrame {
     private final ImageJButton btnAlbums = new ImageJButton("albums.png");
     private final ImageJButton btnArtist = new ImageJButton("artists.png");
     private final JButton btnAddFolder = new JButton("Add Folder");
-    private final JButton btnAddFile = new JButton("Add File");
 
     private final JPanel panNavigation;
     private final JPanel panDashboard;
@@ -51,8 +50,7 @@ public class MainDashboardForm extends JFrame {
         navigationPanel.add(btnSongs, "wrap, grow, h 30%");
         navigationPanel.add(btnAlbums, "wrap, grow, h 30%");
         navigationPanel.add(btnArtist, "wrap, grow, h 30%");
-        navigationPanel.add(btnAddFile, "wrap, grow, h 5%");
-        navigationPanel.add(btnAddFolder, "wrap, grow, h 5%");
+        navigationPanel.add(btnAddFolder, "wrap, grow, h 10%");
 
         btnSongs.addActionListener(new ActionListener() {
             @Override
@@ -74,14 +72,6 @@ public class MainDashboardForm extends JFrame {
                 btnArtistActionPerformed(e);
             }
         });
-
-        btnAddFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnAddFileActionPerformed(e);
-            }
-        });
-        
 
         btnAddFolder.addActionListener(new ActionListener() {
             @Override
@@ -127,10 +117,6 @@ public class MainDashboardForm extends JFrame {
         
         pack();
         repaint();
-    }
-
-    private void btnAddFileActionPerformed(ActionEvent e) {
-        songImporterDialog.importSong();
     }
 
     private void btnAddFolderActionPerformed(ActionEvent e) {

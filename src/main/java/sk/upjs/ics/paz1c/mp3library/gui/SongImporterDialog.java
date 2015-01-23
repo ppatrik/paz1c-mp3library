@@ -71,14 +71,4 @@ public class SongImporterDialog {
         songImporter.importFolder(j.getSelectedFile());
     }
 
-    public void importSong() {
-        JFileChooser j = new JFileChooser(new File("c:\\_data\\music\\"));
-        j.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        j.setDialogTitle("Vyberte mp3 subor");
-        j.showOpenDialog(new JFrame());
-        if (j.getSelectedFile() == null) {
-            return;
-        }
-        songImporter.importSong(j.getSelectedFile());
-    }
 }
