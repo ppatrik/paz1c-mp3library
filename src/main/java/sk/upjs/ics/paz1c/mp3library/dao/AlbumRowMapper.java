@@ -11,14 +11,14 @@ public class AlbumRowMapper implements RowMapper<Album> {
     public Album mapRow(ResultSet rs, int rowNum) throws SQLException {
         Album album = new Album();
         album.setId(rs.getLong("album_id"));
-        album.setName(rs.getString("name"));
+        album.setName(rs.getString("album_name"));
         try {
-            album.setTracks(Integer.parseInt(rs.getString("tracks")));
+            album.setTracks(Integer.parseInt(rs.getString("album_tracks")));
         } catch(NumberFormatException e) {
             album.setTracks(null);
         }
         try {
-            album.setDiscs(Integer.parseInt(rs.getString("discs")));
+            album.setDiscs(Integer.parseInt(rs.getString("album_discs")));
         } catch(NumberFormatException e) {
             album.setDiscs(null);
         }
