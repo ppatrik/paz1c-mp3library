@@ -18,7 +18,7 @@ import sk.upjs.ics.paz1c.mp3library.Album;
  * @author patrik
  */
 class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
-
+    private String cesta = "defaultAlbum.png";
     private int width = 50;
     //private ImageCoverService imageCoverService = BeanFactory.INSTANCE.imageCoverService();
     private DefaultListCellRenderer delegate = new DefaultListCellRenderer();
@@ -27,6 +27,11 @@ class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
         //ImageIcon imageCover = imageCoverService.getImageCover(book);
         BufferedImage image = null;
 
+        if (album.getImageName() == null){
+            album.setImageName(cesta);
+        }
+        
+        
         /*try {
             SongDao songDao = BeanFactory.INSTANCE.songDao();
             List<Song> song = songDao.findAllByAlbum(album);
@@ -45,9 +50,15 @@ class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
         } catch (Exception e) {
 
         }*/
+        try {
+                image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource(album.getImageName()));
+            } catch (Exception ex) {
+                return null;
+            }
+        
         if (image == null) {
             try {
-                image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource("defaultAlbum.png"));
+                image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource(album.getImageName()));
             } catch (Exception ex) {
                 return null;
             }

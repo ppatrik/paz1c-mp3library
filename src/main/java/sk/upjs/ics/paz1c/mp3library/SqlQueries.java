@@ -59,14 +59,15 @@ class SqlQueries {
                 "albums.album_id, " +
                 "albums.name album_name, " +
                 "albums.tracks album_tracks, " +
-                "albums.discs album_discs";
+                "albums.discs album_discs, " +
+                "albums.imageName album_imageName";
 
         public static String DELETE
                 = "DELETE FROM albums WHERE album_id = ?";
         public static String UPDATE
-                = "UPDATE albums SET name = :name, tracks = :tracks, discs = :discs WHERE album_id = :album_id";
+                = "UPDATE albums SET name = :name, tracks = :tracks, discs = :discs, imageName = :imageName WHERE album_id = :album_id";
         public static String INSERT
-                = "INSERT INTO albums VALUES((SELECT IFNULL(MAX(album_id), 0) FROM albums)+1, :name, :tracks, :discs);";
+                = "INSERT INTO albums VALUES((SELECT IFNULL(MAX(album_id), 0) FROM albums)+1, :name, :tracks, :discs, :imageName);";
         public static String FIND_ALL
                 = "SELECT " + SELECT + " FROM albums ORDER BY lower(name)";
         public static String FIND_ONE_BY_ID

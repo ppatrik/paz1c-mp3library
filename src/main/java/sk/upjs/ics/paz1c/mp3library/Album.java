@@ -10,6 +10,7 @@ public class Album {
     private String name;
     private Integer tracks;
     private Integer discs;
+    private String imageName;
 
     public Long getId() {
         return id;
@@ -43,6 +44,15 @@ public class Album {
         this.discs = discs;
     }
 
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    
     public static Album getNull() {
         Album album = new Album();
         album.setId(NULL_ID);

@@ -50,7 +50,8 @@ public class SqliteMigration {
                     + "album_id             int PRIMARY KEY ,"
                     + "name                 longtext,"
                     + "tracks               int,"
-                    + "discs                int"
+                    + "discs                int,"
+                    + "imageName            longtext"
                     + ");");
 
             /*==============================================================*/
