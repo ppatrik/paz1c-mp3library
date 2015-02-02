@@ -39,6 +39,25 @@ public class SongPopupMenu extends JPopupMenu {
             }
         });
         add(playItem);
+        
+        JMenuItem findLyricsForItem = new JMenuItem("Vyhladať text");
+        findLyricsForItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String s = song.getTitle();
+                    String interpret = song.getArtist().getName();
+                    interpret = interpret.replace(" ", "+");
+                    s = s.replace(" ", "+");
+                    s = s + "+" + interpret;
+                    
+                   java.awt.Desktop.getDesktop().browse(URI.create("http://search.azlyrics.com/search.php?q="+ s));
+                } catch (IOException ex) {
+                    System.err.println("Nepodarilo sa otvorit");
+                }
+            }
+        });
+        add(findLyricsForItem);
 
         JMenuItem editItem = new JMenuItem("Upraviť informácie");
         editItem.addActionListener(new ActionListener() {
