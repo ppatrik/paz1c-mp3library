@@ -1,14 +1,12 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
+import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.paz1c.mp3library.gui.components.ImageJButton;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import net.miginfocom.swing.MigLayout;
-import sk.upjs.ics.paz1c.mp3library.gui.components.ImageJButton;
 
 public class MainDashboardForm extends JFrame {
 
@@ -22,7 +20,7 @@ public class MainDashboardForm extends JFrame {
     private final ImageJButton btnSongs = new ImageJButton("songs.png");
     private final ImageJButton btnAlbums = new ImageJButton("albums.png");
     private final ImageJButton btnArtist = new ImageJButton("artists.png");
-    private final JButton btnAddFolder = new JButton("Add Folder");
+    private final ImageJButton btnAddFolder = new ImageJButton("import.png");
 
     private final JPanel panNavigation;
     private final JPanel panDashboard;
@@ -67,10 +65,10 @@ public class MainDashboardForm extends JFrame {
 
     private JPanel createNavigationPanel() {
         JPanel navigationPanel = new JPanel(new MigLayout("gap rel 0, insets 0"));
-        navigationPanel.add(btnSongs, "wrap, grow, h 30%");
-        navigationPanel.add(btnAlbums, "wrap, grow, h 30%");
-        navigationPanel.add(btnArtist, "wrap, grow, h 30%");
-        navigationPanel.add(btnAddFolder, "wrap, grow, h 10%");
+        navigationPanel.add(btnSongs, "wrap, grow, h 30%, w 80!");
+        navigationPanel.add(btnAlbums, "wrap, grow, h 30%, w 80!");
+        navigationPanel.add(btnArtist, "wrap, grow, h 30%, w 80!");
+        navigationPanel.add(btnAddFolder, "wrap, grow, h 10%, w 80!");
 
         btnSongs.addActionListener(new ActionListener() {
             @Override
@@ -110,6 +108,7 @@ public class MainDashboardForm extends JFrame {
         btnSongs.setChecked();
         btnArtist.setUnchecked();
         btnAlbums.setUnchecked();
+        btnAddFolder.setUnchecked();
 
         pack();
         repaint();
