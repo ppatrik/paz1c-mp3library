@@ -1,11 +1,10 @@
 package sk.upjs.ics.paz1c.mp3library.gui;
 
-import java.io.File;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import sk.upjs.ics.paz1c.mp3library.SongImporter;
 import sk.upjs.ics.paz1c.mp3library.SongImporterListener;
+
+import javax.swing.*;
+import java.io.File;
 
 public class SongImporterDialog {
 
@@ -64,7 +63,10 @@ public class SongImporterDialog {
         JFileChooser j = new JFileChooser(new File("c:\\_data\\music\\"));
         j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         j.setDialogTitle("Vyberte priečinok s hudbou");
-        j.showOpenDialog(new JFrame());
+        int returnVal = j.showOpenDialog(GuiFactory.INSTANCE.mainDashboardForm());
+        if(returnVal != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
         if (j.getSelectedFile() == null) {
             return;
         }
