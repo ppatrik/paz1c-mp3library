@@ -32,7 +32,6 @@ class SqliteAlbumDao implements AlbumDao {
         dataMap.put("name", album.getName());
         dataMap.put("tracks", album.getTracks());
         dataMap.put("discs", album.getDiscs());
-        dataMap.put("imageName", album.getImageName());
 
         if (album.getId() == null) {
             insert(album, dataMap);

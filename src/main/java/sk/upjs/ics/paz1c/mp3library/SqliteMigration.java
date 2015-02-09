@@ -51,7 +51,6 @@ public class SqliteMigration {
                     + "name                 longtext,"
                     + "tracks               int,"
                     + "discs                int,"
-                    + "imageName            longtext"
                     + ");");
 
             /*==============================================================*/

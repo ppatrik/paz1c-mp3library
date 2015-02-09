@@ -30,8 +30,6 @@ public class AlbumEditForm extends JDialog {
     private final JLabel lblTracks = new JLabel("Tracks:");
     private final JLabel lblDiscs = new JLabel("Discs:");
     
-    private JLabel lblCover = new JLabel("Cover:");
-    private JLabel imgCover = new JLabel();
     
     private final JTextField txtName = new JTextField();
     private final JFormattedTextField txtTracks = new JFormattedTextField(NumberFormat.getNumberInstance());
@@ -39,10 +37,8 @@ public class AlbumEditForm extends JDialog {
 
     private final JButton btnOk = new JButton("OK");
     private final JButton btnCancel = new JButton("Cancel");
-    private final JButton btnloadCover = new JButton("Import Image");
     
     private Runnable refresh = null;
-    private String cesta;
     private Album album;
 
     public AlbumEditForm(Frame owner) {
@@ -75,14 +71,6 @@ public class AlbumEditForm extends JDialog {
             txtDiscs.setText(album.getDiscs().toString());
         }
 
-        /* -- Book Cover - */
-        add(lblCover);
-        
-        imgCover.setBackground(Color.WHITE);
-        imgCover.setOpaque(true);
-        imgCover.setHorizontalAlignment(SwingConstants.CENTER);
-
-        add(imgCover, "hmin 150, span 2");
         
         
         /* -- Buttons - */
@@ -94,13 +82,6 @@ public class AlbumEditForm extends JDialog {
             }
         });
 
-        add(btnloadCover, "tag load");
-        btnloadCover.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnloadCoverActionPerformed(e);
-            }
-        });
         
         add(btnCancel, "tag cancel");
         btnCancel.addActionListener(new ActionListener() {
@@ -143,30 +124,9 @@ public class AlbumEditForm extends JDialog {
         setVisible(false);
     }
 
-    private String loadCover(File bookCoverFile) {
-        try {
-            BufferedImage image = ImageIO.read(bookCoverFile);
-            imgCover.setIcon(new ImageIcon(image));
-            album.setImageName(bookCoverFile.getName());
-            System.out.println(album.getName());
-            GuiFactory.INSTANCE.mainDashboardForm().refresh();
-            
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Unable to load book cover", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return bookCoverFile.getName();
-    }
+
     
     
-    private void btnloadCoverActionPerformed(ActionEvent e) {
-        JFileChooser fileChooser = new JFileChooser();
-            int dialogResult = fileChooser.showOpenDialog(this);
-            if(dialogResult == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                cesta = selectedFile.getName();
-                loadCover(selectedFile);
-            }
-    }
     
     
     void setRefresh(Runnable refresh) {

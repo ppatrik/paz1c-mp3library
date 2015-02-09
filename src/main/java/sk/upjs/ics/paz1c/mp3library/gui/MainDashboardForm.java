@@ -67,10 +67,10 @@ public class MainDashboardForm extends JFrame {
 
     private JPanel createNavigationPanel() {
         JPanel navigationPanel = new JPanel(new MigLayout("fill, gap rel 0, insets 0"));
-        navigationPanel.add(btnSongs, "wrap, grow, h 25%, w 80!");
-        navigationPanel.add(btnAlbums, "wrap, grow, h 25%, w 80!");
-        navigationPanel.add(btnArtist, "wrap, grow, h 25%, w 80!");
-        navigationPanel.add(btnAddFolder, "wrap, grow, h 25%, w 80!");
+        navigationPanel.add(btnSongs, "wrap, grow, h 30%, w 80!");
+        navigationPanel.add(btnAlbums, "wrap, grow, h 30%, w 80!");
+        navigationPanel.add(btnArtist, "wrap, grow, h 30%, w 80!");
+        navigationPanel.add(btnAddFolder, "wrap, grow, h 10%, w 80!");
 
         
         btnSongs.addActionListener(new ActionListener() {

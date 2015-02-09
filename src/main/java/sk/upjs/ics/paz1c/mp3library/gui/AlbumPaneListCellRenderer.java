@@ -27,10 +27,6 @@ class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
         //ImageIcon imageCover = imageCoverService.getImageCover(book);
         BufferedImage image = null;
 
-        if (album.getImageName() == null){
-            album.setImageName(cesta);
-        }
-        
         
         /*try {
             SongDao songDao = BeanFactory.INSTANCE.songDao();
@@ -50,15 +46,10 @@ class AlbumPaneListCellRenderer implements ListCellRenderer<Album> {
         } catch (Exception e) {
 
         }*/
-        try {
-                image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource(album.getImageName()));
-            } catch (Exception ex) {
-                return null;
-            }
         
         if (image == null) {
             try {
-                image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource(album.getImageName()));
+                image = ImageIO.read(AlbumPaneListCellRenderer.class.getResource("defaultAlbum.png"));
             } catch (Exception ex) {
                 return null;
             }

@@ -22,11 +22,6 @@ public class AlbumRowMapper implements RowMapper<Album> {
         } catch(NumberFormatException e) {
             album.setDiscs(null);
         }
-        try {
-            album.setImageName(rs.getString("album_imageName"));
-        } catch(NumberFormatException e) {
-            album.setImageName(null);
-        }
         
         
         return album;
